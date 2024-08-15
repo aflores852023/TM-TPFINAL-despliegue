@@ -138,16 +138,16 @@
 }
 
 .create-workspace-button {
-  padding: 10px 20px;
-  font-size: 16px;
+  padding: 15px 20px;  /* Reducir el padding para hacer el botón más pequeño */
+  font-size: 16px;  /* Ajustar el tamaño de la fuente */
   background-color: #611f69;
   color: white;
   border-radius: 8px;
   cursor: pointer;
-  width: 50%;
-  height: auto;
-  max-width: 300px;
-  padding-top: 10px;
+  width: 60%;  /* Ajustar el ancho del botón */
+  max-width: 300px;  /* Establecer un ancho máximo */
+  height: auto;  /* Permitir que la altura se ajuste automáticamente */
+  margin: 20px auto;  /* Centrando el botón con margen automático */
 }
 
 .create-workspace-button:hover {
