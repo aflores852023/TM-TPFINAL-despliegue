@@ -144,8 +144,9 @@
   color: white;
   border-radius: 8px;
   cursor: pointer;
-  width: 100%;
-  height: 30%;
+  width: 50%;
+  height: auto;
+  max-width: 300px;
   padding-top: 10px;
 }
 
