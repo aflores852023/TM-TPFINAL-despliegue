@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom'; // Importa useNavigate
+import { useParams, useNavigate } from 'react-router-dom';
 import { getChannelsForWorkspace } from '../helpers/channels';
 import { getMessagesForChannel, saveMessage } from '../helpers/messages';
 import SlackChannels from '../components/SlackChannels';
 import SlackMessages from '../components/SlackMessages';
-import SlackChat from '../components/SlackChat'; // Cambiado de MessageForm a SlackChat
+import SlackChat from '../components/SlackChat'; 
 import './style.css';
 
 const WorkspacesDetails = () => {
   const { workspace_id } = useParams();
-  const navigate = useNavigate(); // Hook para la navegación
+  const navigate = useNavigate();
   const [channels, setChannels] = useState(() => getChannelsForWorkspace(Number(workspace_id)));
   const [selectedChannelId, setSelectedChannelId] = useState(channels.length > 0 ? channels[0].id : null);
   const [messages, setMessages] = useState([]);
@@ -37,21 +37,23 @@ const WorkspacesDetails = () => {
   };
 
   const handleExitClick = () => {
-    navigate('/'); // Redirige a la página principal
+    navigate('/');
   };
 
   return (
-    <div className="container">
+    <div className="workspace-details-container">
       <button className="exit-button" onClick={handleExitClick}>Exit</button> {/* Botón de Exit */}
-      <SlackChannels 
-        channels={channels} 
-        workspaceId={Number(workspace_id)} 
-        onChannelSelect={handleChannelSelect} 
-        onAddChannel={handleAddChannel} 
-      />
-      <div className="messages-container">
-        {selectedChannelId && <SlackMessages messages={messages} />}
-        {selectedChannelId && <SlackChat onSendMessage={handleSendMessage} channelId={selectedChannelId} senderId={1} />}
+      <div className="container">
+        <SlackChannels 
+          channels={channels} 
+          workspaceId={Number(workspace_id)} 
+          onChannelSelect={handleChannelSelect} 
+          onAddChannel={handleAddChannel} 
+        />
+        <div className="messages-container">
+          {selectedChannelId && <SlackMessages messages={messages} />}
+          {selectedChannelId && <SlackChat onSendMessage={handleSendMessage} channelId={selectedChannelId} senderId={1} />}
+        </div>
       </div>
     </div>
   );
