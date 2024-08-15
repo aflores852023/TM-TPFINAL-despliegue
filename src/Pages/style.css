@@ -145,7 +145,7 @@
   border-radius: 8px;
   cursor: pointer;
   width: 100%;
-  height: calc(100vh - 600px);
+  height: 30%;
   padding-top: 10px;
 }
 
