@@ -71,21 +71,7 @@
   margin-right: 10px;
   object-fit: cover;
 }
-/* Estilo del botón de menú (tres rayas) */
-.menu-button {
-  position: fixed;
-  top: 10px;
-  left: 10px;
-  padding: 12px 20px;
-  font-size: 16px;
-  background-color: #611f69;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  z-index: 1000;
-  display: none; /* Oculto por defecto */
-}
+
 
 /* Estilo del botón Exit */
 .exit-button {
@@ -106,18 +92,22 @@
 }
 
 /* Estilo del botón del menú lateral */
+
+
+/* Estilo del botón de menú (tres rayas) */
 .menu-button {
   position: fixed;
   top: 10px;
   left: 10px;
-  padding: 10px;
-  font-size: 24px;
+  padding: 12px 20px;
+  font-size: 16px;
   background-color: #611f69;
   color: white;
   border: none;
   border-radius: 8px;
   cursor: pointer;
   z-index: 1000;
+  display: none; /* Oculto por defecto */
 }
 
 .menu-button:hover {
@@ -190,6 +180,7 @@
 
 .channels {
   flex-grow: 1;
+  margin-top: 50px;
 }
 
 .channels h2 {
