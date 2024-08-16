@@ -641,12 +641,6 @@
   .send-button {
     padding: 4px 8px;
   }
-
-  .exit-button {
-    padding: 6px 12px;
-    font-size: 12px;
-  }
-  
 }
 
 /* Estilos para el formulario de creación de Workspaces */
