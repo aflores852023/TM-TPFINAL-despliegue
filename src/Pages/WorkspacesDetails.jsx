@@ -13,6 +13,7 @@ const WorkspacesDetails = () => {
   const [channels, setChannels] = useState(() => getChannelsForWorkspace(Number(workspace_id)));
   const [selectedChannelId, setSelectedChannelId] = useState(channels.length > 0 ? channels[0].id : null);
   const [messages, setMessages] = useState([]);
+  const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     if (selectedChannelId) {
@@ -23,6 +24,7 @@ const WorkspacesDetails = () => {
 
   const handleChannelSelect = (channelId) => {
     setSelectedChannelId(channelId);
+    setMenuOpen(false); // Cerrar el menú al seleccionar un canal
   };
 
   const handleAddChannel = (newChannel) => {
@@ -40,16 +42,28 @@ const WorkspacesDetails = () => {
     navigate('/');
   };
 
+  const toggleMenu = () => {
+    setMenuOpen(!menuOpen);
+  };
+
   return (
     <div className="workspace-details-container">
-      <button className="exit-button" onClick={handleExitClick}>Exit</button> {/* Botón de Exit */}
-      <div className="container">
-        <SlackChannels 
-          channels={channels} 
-          workspaceId={Number(workspace_id)} 
-          onChannelSelect={handleChannelSelect} 
-          onAddChannel={handleAddChannel} 
-        />
+      <button className="exit-button" onClick={handleExitClick}>Exit</button>
+      <button className="menu-button" onClick={toggleMenu}>
+        &#9776; {/* Ícono de tres rayas */}
+      </button>
+      <div className={`container ${menuOpen ? 'menu-open' : ''}`}>
+        <div className={`channels-container ${menuOpen ? 'open' : ''}`}>
+          <SlackChannels 
+            channels={channels} 
+            workspaceId={Number(workspace_id)} 
+            onChannelSelect={handleChannelSelect} 
+            onAddChannel={handleAddChannel} 
+          />
+          <button className="back-button" onClick={handleExitClick}>
+            Back to Workspaces List
+          </button>
+        </div>
         <div className="messages-container">
           {selectedChannelId && <SlackMessages messages={messages} />}
           {selectedChannelId && <SlackChat onSendMessage={handleSendMessage} channelId={selectedChannelId} senderId={1} />}
