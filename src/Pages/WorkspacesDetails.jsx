@@ -60,9 +60,7 @@ const WorkspacesDetails = () => {
             onChannelSelect={handleChannelSelect} 
             onAddChannel={handleAddChannel} 
           />
-          <button className="back-button" onClick={handleExitClick}>
-            Back to Workspaces List
-          </button>
+        
         </div>
         <div className="messages-container">
           {selectedChannelId && <SlackMessages messages={messages} />}
