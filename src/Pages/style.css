@@ -288,6 +288,7 @@
 
 .message-content {
   background-color: #ffffff;
+  color: #000000; 
   border-radius: 8px;
   padding: 10px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
@@ -521,10 +522,13 @@
     padding: 5px;
   }
 
- .messages-container {
+.messages-container {
     padding: 10px;
     margin-top: 60px; 
     }
+.message-content {
+    font-size: 12px; 
+}
 
   .messages h2 {
     font-size: 16px;
@@ -631,6 +635,9 @@
 
   .send-button {
     padding: 4px 8px;
+  }
+  .message-content {
+    font-size: 12px; 
   }
 }
 
