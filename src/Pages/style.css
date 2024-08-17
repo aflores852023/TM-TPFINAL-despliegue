@@ -84,17 +84,13 @@ body, html {
 
 /* Estilo del botón Exit */
 .exit-button {
-  position: fixed;
-  top: 10px;
-  right: 10px;
-  padding: 12px 20px;
-  font-size: 16px;
+  padding: 8px 16px;
+  font-size: 14px;
   background-color: #611f69;
   color: white;
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  z-index: 1000;
 }
 .exit-button:hover {
   background-color: #cc15e0;
@@ -369,12 +365,27 @@ body, html {
 .messages-container {
   display: flex;
   flex-direction: column;
+  box-sizing: border-box;
   flex: 1;
-  padding: 20px;
+  padding: 10px;
   background-color: #f4f4f4;
   overflow-y: auto;
   overflow-x: hidden;
 }
+.messages-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid #ccc;
+}
+
+.messages-header h2 {
+  margin: 0;
+  font-size: 18px;
+  flex-grow: 1;
+}
+
 
 .message-form {
   display: flex;
