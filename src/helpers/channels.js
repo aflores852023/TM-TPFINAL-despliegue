@@ -54,3 +54,8 @@ export const addWorkspaceIdToChannel = (workspaceId, channelId) => {
   localStorage.setItem('channels', JSON.stringify(updatedChannels));
   return updatedChannels;
 };
+
+export const getChannelDetails = (channelId) => {
+  const channels = JSON.parse(localStorage.getItem('channels')) || [];
+  const channel = channels.find(channel => channel.id === channelId);
+  return channel; }

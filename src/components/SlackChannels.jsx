@@ -91,7 +91,7 @@ const SlackChannels = ({ channels, workspaceId, onChannelSelect, onAddChannel })
   };
 
   return (
-    <div className="channels-container">
+    
       <div className="channels">
         <h2>Channels</h2>
         {channels.length > 0 ? (
@@ -119,7 +119,7 @@ const SlackChannels = ({ channels, workspaceId, onChannelSelect, onAddChannel })
             <button className="cancel-channel-button" onClick={handleCancelClick}>Cancel</button>
           </div>
         )}
-      </div>
+
       <button className="back-button" onClick={handleBackClick}>
         Back to Workspaces List
       </button>

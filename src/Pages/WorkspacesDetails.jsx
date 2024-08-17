@@ -99,7 +99,7 @@ const WorkspacesDetails = () => {
         
         </div>
         <div className="messages-container">
-          {selectedChannelId && <SlackMessages messages={messages} />}
+          {selectedChannelId && <SlackMessages messages={messages} channelId={selectedChannelId}  />}
           {selectedChannelId && <SlackChat onSendMessage={handleSendMessage} channelId={selectedChannelId} senderId={1} />}
         </div>
       </div>

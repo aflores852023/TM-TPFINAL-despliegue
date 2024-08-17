@@ -1,11 +1,13 @@
 import React from 'react';
 import '../Pages/style.css'; 
+import { getChannelDetails } from '../helpers/channels';
 
-const SlackMessages = ({ messages }) => {
-  return (
+const SlackMessages = ({ messages , channelId}) => {
+  const channelDetails = getChannelDetails(channelId);
+return (
     <div className="messages">
-      <h2>Messages to channel</h2>
-      {messages.length > 0 ? (
+       <h2>Messages to channel {channelDetails?.name || 'Unknown Channel'}</h2>
+       {messages.length > 0 ? (
         <ul>
           {messages.map((message) => (
             <li key={message.id} className="message-item">
