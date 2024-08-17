@@ -5,13 +5,20 @@
   align-items: center;
   padding: 20px;
   font-family: Arial, sans-serif;
+  width: 100%;
+  overflow-x: hidden; / 
 }
-
+body, html {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;  
+}
 .container {
   display: flex;
   width: 100%;
   height: 100vh;
   box-sizing: border-box;
+  overflow-x: hidden;  
 }
 
 .home-logo {
@@ -35,7 +42,9 @@
 .workspace-details-container {
   position: relative;
   height: 100vh;
-  width: 100vw;
+  width: 100vw;  
+  max-width: 100%;
+  overflow-x: hidden;  
 }
 .workspaces-list {
   display: flex;
@@ -175,8 +184,7 @@
   color: white;
   padding: 10px;
   box-sizing: border-box;
-  padding-top: 0;  
-  margin-top: 0;  
+  
   border-right: 1px solid #ccc;
 }
 
@@ -251,6 +259,7 @@
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
+  overflow-x: hidden; 
 }
 
 .messages h2 {
@@ -266,14 +275,16 @@
   flex-grow: 1;
   overflow-y: auto;
   max-height: calc(100vh - 250px);  
+  overflow-x: hidden;
 }
-
+ 
 .messages li {
   display: flex;
   align-items: flex-start;
   padding: 10px;
   border-bottom: 1px solid #ccc;
   width: 90%;    
+  box-sizing: border-box;
   
 }
 
@@ -362,6 +373,7 @@
   padding: 20px;
   background-color: #f4f4f4;
   overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .message-form {
@@ -370,6 +382,7 @@
   margin-top: auto;
   padding: 10px;
   border-top: 1px solid #ddd;
+  overflow-x: hidden;
 }
 
 .message-input {
@@ -378,6 +391,7 @@
   border-radius: 4px;
   border: 1px solid #ccc;
   margin-right: 10px;
+ 
 }
 
 .message-attachment {
@@ -392,6 +406,7 @@
   border-radius: 4px;
   cursor: pointer;
   font-weight: bolder;
+  overflow-x: hidden;
 }
 
 .send-button:hover {
