@@ -487,9 +487,23 @@ body, html {
   }
 }
 @media (max-width: 768px) {
+  
   .home {
     width: 90%;
     padding: 15px;
+  }
+  
+  .messages-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    flex-direction: row;
+  }
+  .messages-header h2 {
+    font-size: 16px;
+    flex-grow: 1;
+    margin: 0;
   }
   .menu-open .channels-container {
     left: 0;
@@ -600,11 +614,17 @@ body, html {
 
   .menu-button {
     display: block; /* Mostrar el botón en dispositivos móviles */
+    
   }
 
   .exit-button {
-    padding: 8px 16px;
-    font-size: 14px;
+    padding: 6px 12px;
+    font-size: 12px;
+    background-color: #611f69;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
   }
 }
 
