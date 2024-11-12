@@ -21,7 +21,7 @@ const Home = () => {
       <div className='home-logo'>
         <img src='/img/logo.png' className='slack-logo' />
       </div>
-      <h1 className='home-welcome'>Welcome to Clone_Slack</h1>
+      <h1 className='home-welcome'>Welcome to Clone_Slack - FINAL PROJECT UTN FULL STACK</h1>
       <h2 className='home-subtitle'>Workspaces List</h2>
 
       <SlackWorkspacesList workspaces={workspaces} /> 
