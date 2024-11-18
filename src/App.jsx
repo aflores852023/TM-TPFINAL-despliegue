@@ -11,19 +11,25 @@ import { saveTestDataWorkspaces, saveTestDataMessages, saveTestDataChannels, sav
 import { users, workspaces, channels, messages, directMessages } from '../src/data/data.js'
 import NewWorkspaces from './Pages/NewWorkspaces.jsx'
 import NotFound from './Pages/404NotFound.jsx'
+import Login from './Pages/Login.jsx'
+import Register from './Pages/Register.jsx'
+
 function App() {
 
+  /*
   saveTestDataWorkspaces(workspaces) // inicializa los datos de los espacios de trabajo
   saveTestDataMessages(messages) // inicializa los datos de los mensajes
   saveTestDataChannels(channels) // inicializa los datos de los canales
   saveTestDataUsers(users) // inicializa los datos de los usuarios
   saveTestDataDirectMessages(directMessages) // inicializa los datos de los mensajes directos
-
+*/
 
   return (
     // <Route> siempre esta contenido dentro de Routes
     <Routes>
-      <Route path='/*' element={<NotFound/>}/>
+      <Route path='/' element={<Login/>}/>
+      <Route path='/login' element={<Login/>}/>
+      <Route path='register' element={<Register/>}/>
       <Route path='/' element={<Home/>}/>
       <Route path ='/Channels:workspace_id' element={<Channels/>}/>
       <Route path ='/DirectMessages' element={<DirectMessages/>}/>
