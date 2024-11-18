@@ -11,8 +11,8 @@ import { saveTestDataWorkspaces, saveTestDataMessages, saveTestDataChannels, sav
 import { users, workspaces, channels, messages, directMessages } from '../src/data/data.js'
 import NewWorkspaces from './Pages/NewWorkspaces.jsx'
 import NotFound from './Pages/404NotFound.jsx'
-import Register from "./screems/Register/Register.jsx";
-import Login from "./screems/Login/Login.jsx";
+import Register from './screems/Register/Register.jsx'
+import Login from './screems/Login/Login.jsx'
 
 function App() {
 
