@@ -13,7 +13,7 @@ const Register = () => {
         'password': ''
     }
     const {form_values_state, handleChangeInputValue} = useForm(form_fields)
-    //form_values_state.valor = 'pepe' esto esta MAL porque es un estado
+    
 
     const handleSubmitRegisterForm =async (event) => {
         event.preventDefault()

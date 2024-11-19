@@ -29,7 +29,7 @@ const Login = () => {
 			navigate('/home')
 		}
 		catch(error){
-			//manejan sus errores
+			console.log(error)
 		}
 	}
 
