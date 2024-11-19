@@ -5,6 +5,7 @@ import useForm from '../../Hooks/useForm'
 import { POST, getUnnauthenticatedHeaders } from '../../fetching/http.fetching'
 
 
+
 const Register = () => {
 
     const form_fields = {
@@ -18,9 +19,9 @@ const Register = () => {
     const handleSubmitRegisterForm =async (event) => {
         event.preventDefault()
         const form_HTML = event.target
-
+        const API_BASE_URL = import.meta.env.VITE_API_BASE_URL; // Cargo la variable de entorno
         const body = await POST(
-            'http://localhost:3000/api/auth/register',
+            '${API_BASE_URL}/api/auth/register',
             {
                 headers: getUnnauthenticatedHeaders(),
                 body: JSON.stringify(form_values_object)
