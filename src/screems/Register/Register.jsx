@@ -24,7 +24,7 @@ const Register = () => {
             '${API_BASE_URL}/api/auth/register',
             {
                 headers: getUnnauthenticatedHeaders(),
-                body: JSON.stringify(form_values_object)
+                body: JSON.stringify(form_values_state)
             }
         )
         console.log(body)
