@@ -21,7 +21,7 @@ const Register = () => {
         const form_HTML = event.target
         
         const body = await POST(
-            '${ENVIROMENT.URL_BACKEND}/api/auth/register',
+            `{ENVIROMENT.URL_BACKEND}/api/auth/register`,
             {
                 headers: getUnnauthenticatedHeaders(),
                 body: JSON.stringify(form_values_state)
