@@ -19,9 +19,9 @@ const Register = () => {
     const handleSubmitRegisterForm =async (event) => {
         event.preventDefault()
         const form_HTML = event.target
-        const API_BASE_URL = import.meta.env.VITE_API_BASE_URL; // Cargo la variable de entorno
+        
         const body = await POST(
-            '${API_BASE_URL}/api/auth/register',
+            '${ENVIROMENT.URL_BACKEND}/api/auth/register',
             {
                 headers: getUnnauthenticatedHeaders(),
                 body: JSON.stringify(form_values_state)

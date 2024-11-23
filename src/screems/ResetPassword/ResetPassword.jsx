@@ -12,9 +12,9 @@ const ResetPassword = () => {
     const form_fields = {
         'password': ''
     }
-    const API_BASE_URL = import.meta.env.VITE_API_BASE_URL; // Cargo la variable de entorno
+    
     const form_values_object = extractFormData(form_fields, form_Values)
-    fetch('${API_BASE_URL}/api/auth/reset-password/' + reset_token, {
+    fetch('${ENVIROMENT.URL_BACKEND}/api/auth/reset-password/' + reset_token, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json' //Aca le indicamos al back que lo que enviamos es un JSON

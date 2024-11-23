@@ -17,7 +17,7 @@ const ForgotPassword = () => {
 			}
 			const form_values_object = extractFormData(form_fields, form_Values)
 			console.log(form_values_object)
-			const body = await POST('http://localhost:3000/api/auth/forgot-password', 
+			const body = await POST('${ENVIROMENT.URL_BACKEND}/api/auth/forgot-password', 
 			{
 				headers: getUnnauthenticatedHeaders(),
 				body: JSON.stringify(form_values_object)

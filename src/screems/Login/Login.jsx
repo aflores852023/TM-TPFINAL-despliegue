@@ -15,10 +15,10 @@ const Login = () => {
 				'email': '',
 				'password': ''
 			}
-			const API_BASE_URL = import.meta.env.VITE_API_BASE_URL; // Carga la variable de entorno
+			
 			const form_values_object = extractFormData(form_fields, form_Values)
 			const response = await POST(
-				'${API_BASE_URL}/api/auth/login',
+				'${ENVIROMENT.URL_BACKEND}/api/auth/login',
 				{
 					headers: getUnnauthenticatedHeaders(),
 					body: JSON.stringify(form_values_object)
