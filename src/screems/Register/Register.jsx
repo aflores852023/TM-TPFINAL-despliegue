@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { extractFormData } from '../../utils/extractFormData'
 import useForm from '../../Hooks/useForm'
 import { POST, getUnnauthenticatedHeaders } from '../../fetching/http.fetching'
-
+import { ENVIROMENT } from '../../enviroment/enviroment'
 
 
 const Register = () => {
@@ -21,13 +21,14 @@ const Register = () => {
         const form_HTML = event.target
         
         const body = await POST(
-            `{ENVIROMENT.URL_BACKEND}/api/auth/register`,
+            `${ENVIROMENT.URL_BACKEND}/api/auth/register`, // URL con backticks
             {
                 headers: getUnnauthenticatedHeaders(),
                 body: JSON.stringify(form_values_state)
             }
         )
-        console.log(body)
+        console.log('Respuesta del backend:', body);
+        console.log('Estado del formulario:', form_values_state);
     }
     return (
         <div>
