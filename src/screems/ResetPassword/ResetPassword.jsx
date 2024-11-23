@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { extractFormData } from '../../utils/extractFormData'
-import { ENVIROMENT } from '../../../enviroment.js'
+import  ENVIROMENT from '../../../enviroment.js'
 
 const ResetPassword = () => {
     const {reset_token} = useParams()

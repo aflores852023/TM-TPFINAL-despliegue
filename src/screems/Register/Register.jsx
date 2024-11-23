@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { extractFormData } from '../../utils/extractFormData'
 import useForm from '../../Hooks/useForm'
 import { POST, getUnnauthenticatedHeaders } from '../../fetching/http.fetching'
-import { ENVIROMENT } from '../../../enviroment.js'
+import  ENVIROMENT from '../../../enviroment.js'
 
 
 const Register = () => {

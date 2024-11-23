@@ -2,7 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { extractFormData } from '../../utils/extractFormData'
 import { POST, getUnnauthenticatedHeaders} from '../../fetching/http.fetching'
-import { ENVIROMENT } from '../../../enviroment.js'
+import  ENVIROMENT from '../../../enviroment.js'
 
 
 const ForgotPassword = () => {
