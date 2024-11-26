@@ -1,0 +1,647 @@
+/* Contenedor principal de las pantallas (Screens) */
+.screens {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    width: 100%;
+    overflow-x: hidden;
+  }
+  
+  body, html {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+  }
+  
+  /* Contenedor de pantalla completa */
+  .screen-container {
+    display: flex;
+    width: 100%;
+    height: 100vh;
+    box-sizing: border-box;
+    overflow-x: hidden;
+  }
+  
+  /* Logo dentro de la pantalla */
+  .screen-logo {
+    margin-bottom: 20px;
+  }
+  
+  .screen-logo img {
+    width: 120px;
+    object-fit: cover;
+  }
+  
+  /* Títulos principales y subtítulos */
+  .screen-welcome {
+    font-size: 26px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  .screen-subtitle {
+    font-size: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  /* Estilo para los items de las listas en las pantallas */
+  .screen-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f5f5f5;
+    margin-bottom: 15px;
+    width: 100%;
+    max-width: 450px;
+  }
+  
+  .screen-info {
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+  }
+  
+  .screen-icon {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    margin-right: 12px;
+    object-fit: cover;
+  }
+  
+  /* Botón para salir o cerrar */
+  .exit-button {
+    padding: 8px 16px;
+    font-size: 14px;
+    background-color: #611f69;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+  
+  .exit-button:hover {
+    background-color: #cc15e0;
+  }
+  
+  /* Botón de menú lateral (visible en pantallas más grandes) */
+  .menu-button {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    padding: 12px 20px;
+    font-size: 16px;
+    background-color: #611f69;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    z-index: 1000;
+  }
+  
+  .menu-button:hover {
+    background-color: #cc15e0;
+  }
+  
+  /* Botón de workspace dentro de la pantalla */
+  .screen-workspace-button {
+    background-color: #611f69;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  
+  .screen-workspace-button:hover {
+    background-color: #cc15e0;
+  }
+  
+  /* Contenedor para la creación de un nuevo workspace */
+  .create-workspace-container {
+    margin-top: 20px;
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+  }
+  
+  .create-workspace-button {
+    padding: 15px 20px;
+    font-size: 16px;
+    background-color: #611f69;
+    color: white;
+    border-radius: 8px;
+    cursor: pointer;
+    width: 70%;
+    max-width: 300px;
+    margin: 20px auto;
+  }
+  
+  .create-workspace-button:hover {
+    background-color: #cc15e0;
+  }
+  
+  /* Estilos adicionales para pantallas */
+  .screen-header {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 30px;
+    color: #333;
+    text-align: center;
+  }
+  
+  .screen-footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: #611f69;
+    color: white;
+    text-align: center;
+    padding: 15px 0;
+  }
+  
+  .screen-footer p {
+    margin: 0;
+    font-size: 14px;
+  }
+  
+  /* Ajustes para pantallas móviles */
+  @media (max-width: 768px) {
+    .screen-logo img {
+      width: 80px;
+    }
+  
+    .screen-welcome {
+      font-size: 20px;
+    }
+  
+    .screen-subtitle {
+      font-size: 16px;
+    }
+  
+    .screen-item {
+      padding: 8px;
+      font-size: 14px;
+    }
+  
+    .create-workspace-button {
+      padding: 12px 16px;
+      font-size: 14px;
+    }
+  
+    .screen-footer {
+      padding: 10px 0;
+    }
+  }  
+
+  /* Estilos específicos para la pantalla ForgotPassword */
+.screen-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    padding: 20px;
+  }
+  
+  .screen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+  }
+  
+  .screen-welcome {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #611f69;
+    text-align: center;
+  }
+  
+  .screen-subtitle {
+    font-size: 18px;
+    margin-bottom: 30px;
+    color: #555;
+    text-align: center;
+  }
+  
+  .screen-form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .screen-form-group {
+    margin-bottom: 20px;
+  }
+  
+  .screen-form-label {
+    font-size: 16px;
+    color: #333;
+    margin-bottom: 8px;
+  }
+  
+  .screen-input {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    width: 100%;
+    margin-top: 5px;
+  }
+  
+  .screen-button {
+    padding: 12px 20px;
+    font-size: 16px;
+    background-color: #611f69;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 20px;
+    width: 100%;
+  }
+  
+  .screen-button:hover {
+    background-color: #cc15e0;
+  }
+  
+  .screen-links {
+    margin-top: 20px;
+    text-align: center;
+  }
+  
+  .screen-link {
+    color: #611f69;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  
+  .screen-link:hover {
+    text-decoration: underline;
+  }
+  
+
+  /* Estilos para la página principal (HomeScreen) */
+.screen-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    padding: 20px;
+    background-color: #f4f4f4; /* Fondo de la pantalla */
+  }
+  
+  .screen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 1200px;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  .screen-welcome {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  .screen-link {
+    font-size: 16px;
+    color: #611f69;
+    margin-bottom: 20px;
+    text-decoration: none;
+  }
+  
+  .screen-link:hover {
+    color: #cc15e0;
+  }
+  
+  .screen-loading {
+    font-size: 18px;
+    color: #555;
+  }
+  
+  /* Estilos para la lista de productos */
+  .products-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+  }
+  
+  /* Estilos para los productos */
+  .product-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 16px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    transition: transform 0.3s ease;
+  }
+  
+  .product-card:hover {
+    transform: translateY(-5px);
+  }
+  
+  .product-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #333;
+  }
+  
+  .product-image {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 10px;
+  }
+  
+  .product-price {
+    font-size: 16px;
+    font-weight: bold;
+    color: #611f69;
+    margin-bottom: 10px;
+  }
+  
+  .product-link {
+    font-size: 14px;
+    color: #611f69;
+    text-decoration: none;
+  }
+  
+  .product-link:hover {
+    color: #cc15e0;
+  }
+  
+
+  /* Estilos para la página de Login */
+.screen-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    padding: 20px;
+    background-color: #f4f4f4; /* Fondo de la pantalla */
+  }
+  
+  .screen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 400px;
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  .screen-title {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  .login-form {
+    width: 100%;
+  }
+  
+  .form-field {
+    margin-bottom: 20px;
+    width: 100%;
+  }
+  
+  .form-field label {
+    font-size: 14px;
+    margin-bottom: 8px;
+    color: #555;
+  }
+  
+  .form-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    box-sizing: border-box;
+  }
+  
+  .submit-button {
+    padding: 12px;
+    font-size: 16px;
+    background-color: #611f69;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    width: 100%;
+  }
+  
+  .submit-button:hover {
+    background-color: #cc15e0;
+  }
+  
+  .form-links {
+    margin-top: 20px;
+    font-size: 14px;
+    text-align: center;
+  }
+  
+  .form-link {
+    color: #611f69;
+    text-decoration: none;
+  }
+  
+  .form-link:hover {
+    color: #cc15e0;
+  }
+  
+  /* Estilos para la página de Register */
+.screen-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    padding: 20px;
+    background-color: #f4f4f4; /* Fondo de la pantalla */
+  }
+  
+  .screen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 400px;
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  .screen-title {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  .register-form {
+    width: 100%;
+  }
+  
+  .form-field {
+    margin-bottom: 20px;
+    width: 100%;
+  }
+  
+  .form-field label {
+    font-size: 14px;
+    margin-bottom: 8px;
+    color: #555;
+  }
+  
+  .form-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+    color: #333;
+  }
+  
+  .submit-button {
+    width: 100%;
+    padding: 12px;
+    background-color: #611f69;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  .submit-button:hover {
+    background-color: #cc15e0;
+  }
+  
+  .form-links {
+    margin-top: 20px;
+    font-size: 14px;
+  }
+  
+  .form-link {
+    color: #611f69;
+    text-decoration: none;
+  }
+  
+  .form-link:hover {
+    color: #cc15e0;
+  }
+  
+
+  /* Estilos para la página de ResetPassword */
+.screen-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    padding: 20px;
+    background-color: #f4f4f4; /* Fondo de la pantalla */
+  }
+  
+  .screen {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 400px;
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  .screen-title {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  .screen-description {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 20px;
+  }
+  
+  .reset-form {
+    width: 100%;
+  }
+  
+  .form-field {
+    margin-bottom: 20px;
+    width: 100%;
+  }
+  
+  .form-field label {
+    font-size: 14px;
+    margin-bottom: 5px;
+    color: #333;
+  }
+  
+  .form-input {
+    width: 100%;
+    padding: 10px;
+    font-size: 14px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin-top: 5px;
+  }
+  
+  .submit-button {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+  }
+  
+  .submit-button:hover {
+    background-color: #0056b3;
+  }
+  
+  .form-links {
+    margin-top: 10px;
+  }
+  
+  .form-link {
+    color: #007bff;
+  }
+  
+  .form-link:hover {
+    text-decoration: underline;
+  }
+  

@@ -82,6 +82,50 @@ body, html {
 }
 
 
+.workspaces-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: center;
+  margin: 20px 0;
+}
+
+.workspace-card {
+  background-color: #f4f4f4;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 12px;
+  width: 300px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.workspace-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.logout-container {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.logout-button {
+  background-color: #ff5757;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.logout-button:hover {
+  background-color: #e04e4e;
+}
+
+
 /* Estilo del botón Exit */
 .exit-button {
   padding: 8px 16px;
@@ -162,6 +206,26 @@ body, html {
 .create-workspace-button:hover {
   background-color: #cc15e0;
   
+}
+
+
+.logout-container {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.logout-button {
+  background-color: #d9534f;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.logout-button:hover {
+  background-color: #c9302c;
 }
 
 /* Estilos para SlackChannels y SlackMessages */

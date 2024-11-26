@@ -39,6 +39,8 @@ function App() {
       <Route path ='/Channels' element={<Channels />} />
       <Route path = '/ChannelDetails/:channel_id' element={<ChannelDetails/>} />      
       <Route path ='/Workspaces/New' element={<NewWorkspaces/>} />
+      <Route path ='/Home' element={<Home/>} />
+      <Route path ='/404NotFound' element={<NotFound/>} />
 
 
 

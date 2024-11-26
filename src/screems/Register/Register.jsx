@@ -4,7 +4,7 @@ import { extractFormData } from '../../utils/extractFormData'
 import useForm from '../../Hooks/useForm'
 import { POST, getUnnauthenticatedHeaders } from '../../fetching/http.fetching'
 import  ENVIROMENT from '../../../enviroment.js'
-
+import '../../screems/screen-style.css'
 
 const Register = () => {
 
@@ -27,6 +27,7 @@ const Register = () => {
                 body: JSON.stringify(form_values_state)
             }
         )
+        console.log('la url del backend es :', `${ENVIROMENT.URL_BACKEND}/api/auth/register`)
         console.log('Respuesta del backend:', body);
         console.log('Estado del formulario:', form_values_state);
     }
