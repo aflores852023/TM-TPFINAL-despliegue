@@ -26,12 +26,15 @@ export const GET = async (URL_API, params) => {
 		// Verificamos si la respuesta fue exitosa
 		if (!response.ok) {
 			throw new Error(`HTTP error! Status: ${response.status}`);
+			
 		}
 		return response.json(); // Parseamos la respuesta como JSON
 	} catch (error) {
 		console.log(error);
 		throw new Error(`Failed to get from ${URL_API}: ${error.message}`);
+		
 	}
+	
 }
 
 export const PUT = async (URL_API, params) => {

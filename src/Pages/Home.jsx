@@ -1,59 +1,72 @@
 import React, { useState, useEffect } from 'react';
 import { GET } from '../fetching/http.fetching';
-import SlackWorkspacesList from '../components/SlackWorkspacesList';
-import SlackWorkspaces from '../components/SlackWorkspaces'; // Asegúrate de importar el componente
+import SlackWorkspaces from '../components/SlackWorkspaces'; // Importar el componente individual
 import { Link, useNavigate } from 'react-router-dom';
 import './style.css';
 import ENVIROMENT from '../../enviroment.js';
 import { getAuthenticatedHeaders } from '../fetching/http.fetching';
 
 const Home = () => {
-  const [workspaces, setWorkspaces] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const navigate = useNavigate();
+  const [workspaces, setWorkspaces] = useState([]); // Estado para los workspaces
+  const [loading, setLoading] = useState(true); // Estado para indicar carga
+  const [error, setError] = useState(null); // Estado para manejar errores
+  const navigate = useNavigate(); // Hook para redirigir
 
+  // useEffect para cargar los workspaces al montar el componente
   useEffect(() => {
     const fetchWorkspaces = async () => {
       try {
+        console.log('Fetching workspaces...');
         const response = await GET(`${ENVIROMENT.URL_BACKEND}/api/workspaces`, {
           headers: getAuthenticatedHeaders(),
         });
 
         if (response.ok) {
           const workspacesData = response.data;
+
+          // Validar si es un array y mapear `_id` a `id`
           if (Array.isArray(workspacesData)) {
-            setWorkspaces(workspacesData);
+            const formattedWorkspaces = workspacesData.map((workspace) => ({
+              ...workspace,
+              id: workspace._id, // Asegurar que usemos `id` en lugar de `_id`
+            }));
+            console.log('Workspaces fetched:', formattedWorkspaces);
+            setWorkspaces(formattedWorkspaces);
           } else {
-            setError('La respuesta no contiene un array de workspaces.');
+            throw new Error('La respuesta no contiene un array de workspaces.');
           }
         } else {
-          setError(response.message || 'Failed to fetch workspaces.');
+          throw new Error(response.message || 'Error al obtener los workspaces.');
         }
       } catch (err) {
-        setError(err.message || 'An error occurred while fetching workspaces.');
+        console.error('Error fetching workspaces:', err.message);
+        setError(err.message || 'Se produjo un error al obtener los workspaces.');
       } finally {
-        setLoading(false);
+        setLoading(false); // Finaliza la carga
       }
     };
 
     fetchWorkspaces();
   }, []);
 
+  // Función para manejar el cierre de sesión
   const handleLogout = () => {
     sessionStorage.removeItem('access_token');
     sessionStorage.removeItem('user_info');
     navigate('/login');
   };
 
+  // Renderizar mientras se cargan los datos
   if (loading) {
     return <div>Loading workspaces...</div>;
   }
 
+  // Renderizar si hay un error
   if (error) {
     return <div>Error: {error}</div>;
   }
 
+  // Render principal
   return (
     <div className="home">
       <div className="home-logo">

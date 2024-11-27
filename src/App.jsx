@@ -13,6 +13,9 @@ import NewWorkspaces from './Pages/NewWorkspaces.jsx'
 import NotFound from './Pages/404NotFound.jsx'
 import Register from './screems/Register/Register.jsx'
 import Login from './screems/Login/Login.jsx'
+import Verify from './screems/Verify/Verify.jsx'
+import ResetPassword from './screems/ResetPassword/ResetPassword.jsx'
+import ForgotPassword from './screems/ForgotPassword/ForgotPassword.jsx'
 
 function App() {
 
@@ -30,6 +33,8 @@ function App() {
       <Route path='/' element={<Login/>}/>
       <Route path='/login' element={<Login/>}/>
       <Route path='/register' element={<Register/>}/>
+      <Route path='/forgot-password'element={<ForgotPassword/>}/>
+      <Route path="/reset-password/:reset_token" element={<ResetPassword />} />
       <Route path ='/Channels:workspace_id' element={<Channels/>}/>
       <Route path ='/DirectMessages' element={<DirectMessages/>}/>
       <Route path ='/Messages' element={<Messages/>}/>
@@ -41,6 +46,7 @@ function App() {
       <Route path ='/Workspaces/New' element={<NewWorkspaces/>} />
       <Route path ='/Home' element={<Home/>} />
       <Route path ='/404NotFound' element={<NotFound/>} />
+      <Route path="/verify" element={<Verify />} />
 
 
 
