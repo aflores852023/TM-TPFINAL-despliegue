@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { POST, getAuthenticatedHeaders } from '../fetching/http.fetching';
 import ENVIROMENT from '../../enviroment.js';
+import './NewWorkspaces.css';
 
 const NewWorkspaces = () => {
   const [workspaceName, setWorkspaceName] = useState('');
@@ -15,60 +16,68 @@ const NewWorkspaces = () => {
     setError(null);
 
     try {
-      const userInfo = JSON.parse(sessionStorage.getItem('user_info')); // Obtener la info del usuario logueado
-        const userId = userInfo ? userInfo.id : null; // Obtener el ID del usuario
+      const userInfo = JSON.parse(sessionStorage.getItem('user_info'));
+      const userId = userInfo?.id;
 
-        
       if (!userId) {
-          setError('User is not logged in!');
-          return;
+        setError('User is not logged in!');
+        setLoading(false);
+        return;
+      }
+
+      if (!workspaceName.trim()) {
+        setError('Workspace name is required.');
+        setLoading(false);
+        return;
       }
 
       const newWorkspace = {
-          name: workspaceName,
-          imageUrl: '../img/logo_workspaces.jpeg', // Ícono predeterminado
-          members: [userId],  // Agregar el ID del usuario logueado a los miembros
+        name: workspaceName.trim(),
+        imageUrl: '/img/logo_workspaces.jpeg',
+        members: [userId],
       };
 
-      console.log('Payload enviado:', newWorkspace);
-        const response = await POST(`${ENVIROMENT.URL_BACKEND}/api/workspaces`, {
-            headers: getAuthenticatedHeaders(),
-            body: JSON.stringify(newWorkspace),
-        });
-        console.log('Respuesta del backend:', response);
-        console.log('Estado del formulario:', newWorkspace);
-        console.log ('URL del backend:', `${ENVIROMENT.URL_BACKEND}/api/workspaces`);
-        
-        if (response.ok) {
-            navigate('/');
-        } else {
-            setError(response.message || 'Failed to create workspace.');
-        }
+      const response = await POST(`${ENVIROMENT.URL_BACKEND}/api/workspaces`, {
+        headers: getAuthenticatedHeaders(),
+        body: JSON.stringify(newWorkspace),
+      });
+
+      if (response?.workspace && response?.channel) {
+        navigate('/Home');
+      } else {
+        setError(response?.message || 'Failed to create workspace.');
+      }
     } catch (err) {
-        setError(err.message || 'An error occurred while creating the workspace.');
+      setError(err.message || 'An error occurred while creating the workspace.');
     } finally {
-        setLoading(false);
-        setWorkspaceName('');
+      setLoading(false);
     }
-};
+  };
 
   const handleBackClick = () => {
     navigate('/Home');
   };
 
   return (
-    <div className="home"> {/* Usar la clase home para mantener el diseño centrado */}
-      <div className="home-logo">
-        <img src="/img/logo_workspaces.jpeg" alt="Workspace Icon" className="slack-logo" />
-      </div>
-      <h2 className="home-welcome">Create New Workspace</h2>
-      {error && <p className="error-message">{error}</p>}
-      {loading ? (
-        <p>Loading...</p>
-      ) : (
-        <form onSubmit={handleSubmit} className="create-workspace-form">
-          <div className="form-group">
-            <label htmlFor="workspaceName" className="form-label">Workspace Name:</label>
+    <div className="new-workspace-container">
+      <div className="new-workspace-card">
+        <img
+          src="/img/logo_workspaces.jpeg"
+          alt="Workspace Icon"
+          className="workspace-logo"
+        />
+        <h1 className="new-workspace-title">Create a New Workspace</h1>
+        <p className="new-workspace-description">
+          Work together effectively by creating a workspace for your team!
+        </p>
+        {error && <p className="new-workspace-error">{error}</p>}
+        {loading ? (
+          <p className="new-workspace-loading">Creating workspace...</p>
+        ) : (
+          <form onSubmit={handleSubmit} className="new-workspace-form">
+            <label htmlFor="workspaceName" className="form-label">
+              Workspace Name:
+            </label>
             <input
               type="text"
               id="workspaceName"
@@ -77,17 +86,18 @@ const NewWorkspaces = () => {
               onChange={(e) => setWorkspaceName(e.target.value)}
               required
             />
-          </div>
-          <div className="form-group">
-            <button type="submit" className="create-workspace-button_in_worskpace">
+            <button type="submit" className="form-submit-button">
               Create Workspace
             </button>
-          </div>
-        </form>
-      )}
-      <button className="create-workspace-button_back_button" onClick={handleBackClick}>
-        Back to Workspaces List
-      </button>
+          </form>
+        )}
+        <button
+          className="back-to-list-button"
+          onClick={handleBackClick}
+        >
+          Back to Workspaces List
+        </button>
+      </div>
     </div>
   );
 };

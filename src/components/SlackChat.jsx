@@ -1,60 +1,54 @@
+ 
+// src/components/SlackChat.jsx
 import React, { useState } from 'react';
-import '../Pages/style.css';
-import { getNextMessageId } from '../helpers/messages';
+import './SlackChat.css'; // Archivo CSS exclusivo para SlackChat
 
-const SlackChat = ({ onSendMessage, channelId, senderId }) => {
-  const [text, setText] = useState('');
-  const [attachment, setAttachment] = useState(null);
+/**
+ * Componente que muestra los mensajes de un canal y permite enviar nuevos mensajes.
+ *
+ * @param {Array} messages - Lista de mensajes del canal.
+ * @param {Function} onSendMessage - Callback para enviar un mensaje.
+ * @param {String} channelId - ID del canal actual.
+ */
+const SlackChat = ({ messages, onSendMessage, channelId }) => {
+  const [newMessage, setNewMessage] = useState('');
 
-  const handleTextChange = (e) => {
-    setText(e.target.value);
-  };
+  const handleSend = () => {
+    if (newMessage.trim() === '') return;
 
-  const handleAttachmentChange = (e) => {
-    setAttachment(e.target.files[0]);
-  };
+    onSendMessage({
+      channelId,
+      text: newMessage,
+      senderId: 'currentUserId', // Cambiar por el ID real del usuario
+    });
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    if (text.trim() === '' && !attachment) {
-      alert('Message cannot be empty');
-      return;
-    }
-
-    // Obtener el próximo ID de mensaje
-    const newMessageId = getNextMessageId();
-
-    const newMessage = {
-      id: newMessageId, // Usar el nuevo ID obtenido de helpers
-      text: text,
-      senderId: senderId,
-      channelId: channelId,
-      timestamp: new Date(),
-      imageUrl: '/img/logo.png', // Imagen predeterminada
-      status: 'sent',
-      attachment: attachment ? URL.createObjectURL(attachment) : null, // Crear una URL temporal para la vista previa del archivo adjunto
-    };
-
-    onSendMessage(newMessage);
-
-    // Resetear formulario
-    setText('');
-    setAttachment(null);
+    setNewMessage('');
   };
 
   return (
-    <form onSubmit={handleSubmit} className="message-form">
-      <input
-        type="text"
-        placeholder="Type your message"
-        value={text}
-        onChange={handleTextChange}
-        className="message-input"
-      />
-      <input type="file" onChange={handleAttachmentChange} className="message-attachment" />
-      <button type="submit" className="send-button">Send</button>
-    </form>
+    <div className="slack-chat-container">
+      <div className="slack-chat">
+        <div className="chat-messages">
+          {messages.map((message, index) => (
+            <div key={index} className="chat-message-item">
+              <span className="chat-message-text">{message.text}</span>
+            </div>
+          ))}
+        </div>
+        <div className="chat-input-container">
+          <input
+            type="text"
+            value={newMessage}
+            placeholder="Type your message here..."
+            className="chat-input"
+            onChange={(e) => setNewMessage(e.target.value)}
+          />
+          <button onClick={handleSend} className="chat-send-button">
+            Send
+          </button>
+        </div>
+      </div>
+    </div>
   );
 };
 

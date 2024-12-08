@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import useForm from '../../Hooks/useForm';
 import { POST, getUnnauthenticatedHeaders } from '../../fetching/http.fetching';
 import ENVIROMENT from '../../../enviroment.js';
-import '../../screems/screen-style.css'; // Importamos los estilos
+import './Register.css';
 
 const Register = () => {
     const navigate = useNavigate();

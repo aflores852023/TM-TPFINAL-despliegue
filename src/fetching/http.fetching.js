@@ -81,6 +81,8 @@ const getUnnauthenticatedHeaders = () => {
 	const unnauthenticatedHeaders = new Headers();
 	unnauthenticatedHeaders.set('Content-Type', 'application/json');
 	unnauthenticatedHeaders.set('x-api-key', '4f5e6g7h8i9j0k1l2m3n');
+	console.log('el token es', sessionStorage.getItem('access_token'));
+	console.log('el token es', unnauthenticatedHeaders);
 	return unnauthenticatedHeaders;
 }
 
@@ -96,6 +98,8 @@ const getAuthenticatedHeaders = () => {
 	authenticatedHeaders.set('Content-Type', 'application/json');
 	authenticatedHeaders.set('x-api-key', '4f5e6g7h8i9j0k1l2m3n');
 	authenticatedHeaders.set('Authorization', 'Bearer ' + sessionStorage.getItem('access_token'));
+	console.log('el token es', sessionStorage.getItem('access_token'));
+	console.log('el token es', authenticatedHeaders);
 	return authenticatedHeaders;
 }
 

@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { extractFormData } from '../../utils/extractFormData';
 import { POST, getUnnauthenticatedHeaders } from '../../fetching/http.fetching';
 import ENVIROMENT from '../../../enviroment.js';
-import '../../screems/screen-style.css';
+import './ForgotPassword.css';
 
 const ForgotPassword = () => {
   const [message, setMessage] = useState('');

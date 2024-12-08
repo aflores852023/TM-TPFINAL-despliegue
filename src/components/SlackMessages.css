@@ -1,0 +1,83 @@
+/* SlackMessages.css */
+.slack-messages {
+    padding: 20px;
+    background-color: #f9f9f9;
+    height: calc(100vh - 200px);
+    overflow-y: auto;
+  }
+  
+  .messages-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .messages-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .message-item {
+    display: flex;
+    margin-bottom: 15px;
+    align-items: flex-start;
+  }
+  
+  .message-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+  
+  .message-content {
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 4px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    flex: 1;
+  }
+  
+  .message-text {
+    margin: 0;
+    font-size: 14px;
+    color: #333;
+  }
+  
+  .message-info {
+    font-size: 12px;
+    color: #aaa;
+    margin-top: 5px;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .message-timestamp {
+    margin-right: 10px;
+  }
+  
+  .no-messages {
+    font-size: 14px;
+    color: #666;
+    text-align: center;
+  }
+  /* Responsividad */
+@media (max-width: 768px) {
+    .message-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .message-item img {
+        margin-bottom: 5px;
+    }
+
+    .message-text {
+        font-size: 12px;
+    }
+
+    .message-info {
+        font-size: 10px;
+    }
+}

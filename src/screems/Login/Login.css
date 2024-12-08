@@ -1,0 +1,137 @@
+/* Login.css */
+/* Contenedor principal del Login */
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    padding: 20px;
+    background-color: #f4f4f4;
+}
+
+/* Tarjeta de Login */
+.login-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    max-width: 400px;
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Título del Login */
+.login-title {
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: #333;
+    text-align: center;
+    font-weight: bold;
+}
+
+/* Subtítulo */
+.login-subtitle {
+    font-size: 14px;
+    margin-bottom: 20px;
+    color: #666;
+    text-align: center;
+}
+
+/* Formulario */
+.login-form {
+    width: 100%;
+}
+
+/* Campos del formulario */
+.login-form .form-field {
+    margin-bottom: 20px;
+    width: 100%;
+    text-align: left;
+}
+
+.login-form .form-field label {
+    font-size: 14px;
+    margin-bottom: 8px;
+    color: #333;
+    display: block;
+    font-weight: bold;
+}
+
+.login-form .form-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    box-sizing: border-box;
+    background-color: #fafafa;
+    transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+.login-form .form-input:focus {
+    border-color: #611f69;
+    background-color: #fff;
+    outline: none;
+}
+
+/* Botón de inicio de sesión */
+.login-form .submit-button {
+    padding: 12px;
+    font-size: 16px;
+    background-color: #611f69;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    width: 100%;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.login-form .submit-button:hover {
+    background-color: #8b4a9e;
+    transform: translateY(-2px);
+}
+
+/* Separador */
+.login-separator {
+    display: flex;
+    align-items: center;
+    margin: 20px 0;
+    color: #999;
+    font-size: 14px;
+}
+
+.login-separator::before,
+.login-separator::after {
+    content: "";
+    flex: 1;
+    border-bottom: 1px solid #ddd;
+    margin: 0 10px;
+}
+
+/* Enlaces de ayuda */
+.login-links {
+    margin-top: 20px;
+    font-size: 14px;
+    text-align: center;
+}
+
+.login-links .form-link {
+    color: #611f69;
+    text-decoration: none;
+}
+
+.login-links .form-link:hover {
+    text-decoration: underline;
+    color: #8b4a9e;
+}
+
+/* Mensaje de error */
+.error-message {
+    color: red;
+    font-size: 14px;
+    margin-bottom: 10px;
+    text-align: center;
+}

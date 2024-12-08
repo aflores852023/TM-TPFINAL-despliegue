@@ -1,103 +1,100 @@
 import React, { useState, useEffect } from 'react';
 import { GET } from '../fetching/http.fetching';
-import SlackWorkspaces from '../components/SlackWorkspaces'; // Importar el componente individual
 import { Link, useNavigate } from 'react-router-dom';
-import './style.css';
+import './Home.css'; // Archivo CSS exclusivo para esta página
 import ENVIROMENT from '../../enviroment.js';
 import { getAuthenticatedHeaders } from '../fetching/http.fetching';
 
 const Home = () => {
-  const [workspaces, setWorkspaces] = useState([]); // Estado para los workspaces
-  const [loading, setLoading] = useState(true); // Estado para indicar carga
-  const [error, setError] = useState(null); // Estado para manejar errores
-  const navigate = useNavigate(); // Hook para redirigir
+  const [workspaces, setWorkspaces] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
-  // useEffect para cargar los workspaces al montar el componente
   useEffect(() => {
     const fetchWorkspaces = async () => {
       try {
-        console.log('Fetching workspaces...');
         const response = await GET(`${ENVIROMENT.URL_BACKEND}/api/workspaces`, {
           headers: getAuthenticatedHeaders(),
         });
 
         if (response.ok) {
-          const workspacesData = response.data;
-
-          // Validar si es un array y mapear `_id` a `id`
-          if (Array.isArray(workspacesData)) {
-            const formattedWorkspaces = workspacesData.map((workspace) => ({
-              ...workspace,
-              id: workspace._id, // Asegurar que usemos `id` en lugar de `_id`
-            }));
-            console.log('Workspaces fetched:', formattedWorkspaces);
-            setWorkspaces(formattedWorkspaces);
-          } else {
-            throw new Error('La respuesta no contiene un array de workspaces.');
-          }
+          const workspacesData = response.data.map((workspace) => ({
+            ...workspace,
+            id: workspace._id,
+          }));
+          setWorkspaces(workspacesData);
         } else {
           throw new Error(response.message || 'Error al obtener los workspaces.');
         }
       } catch (err) {
-        console.error('Error fetching workspaces:', err.message);
         setError(err.message || 'Se produjo un error al obtener los workspaces.');
       } finally {
-        setLoading(false); // Finaliza la carga
+        setLoading(false);
       }
     };
 
     fetchWorkspaces();
   }, []);
 
-  // Función para manejar el cierre de sesión
   const handleLogout = () => {
     sessionStorage.removeItem('access_token');
     sessionStorage.removeItem('user_info');
     navigate('/login');
   };
 
-  // Renderizar mientras se cargan los datos
-  if (loading) {
-    return <div>Loading workspaces...</div>;
-  }
+  if (loading) return <div className="loading-message">Loading workspaces...</div>;
+  if (error) return <div className="error-message">{error}</div>;
 
-  // Renderizar si hay un error
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
-
-  // Render principal
   return (
-    <div className="home">
-      <div className="home-logo">
-        <img src="/img/logo.png" className="slack-logo" alt="Slack Clone Logo" />
-      </div>
-      <h1 className="home-welcome">Welcome to Clone_Slack - FINAL PROJECT UTN FULL STACK</h1>
-      <h2 className="home-subtitle">Workspaces List</h2>
+    <div className="home-page">
+      <header className="home-header">
+        <img src="/img/logo.png" alt="Slack Logo" className="home-logo" />
+        <h1>¡Hola otra vez!</h1>
+        <p>Selecciona un espacio de trabajo para continuar</p>
+      </header>
 
-      {workspaces.length > 0 ? (
+      <main className="home-main">
         <div className="workspaces-container">
-          {workspaces.map((workspace) => (
-            <div key={workspace.id} className="workspace-card">
-              <SlackWorkspaces workspace={workspace} />
-            </div>
-          ))}
+          <h2 className="section-title">Espacios de trabajo</h2>
+          <div className="workspaces-grid">
+            {workspaces.length > 0 ? (
+              workspaces.map((workspace) => (
+                <div key={workspace.id} className="workspace-card">
+                  <div className="workspace-info">
+                    <img
+                      src="/img/logo_workspaces.jpeg"
+                      alt={workspace.name}
+                      className="workspace-logo"
+                    />
+                    <div className="workspace-details">
+                      <h3 className="workspace-name">{workspace.name}</h3>
+                      <p className="workspace-members">42 miembros</p>
+                    </div>
+                  </div>
+                  <Link
+                    to={`/Workspaces/${workspace.id}`}
+                    className="workspace-link"
+                  >
+                    Entrar →
+                  </Link>
+                </div>
+              ))
+            ) : (
+              <p>No hay espacios disponibles. Crea uno para comenzar.</p>
+            )}
+          </div>
+          <Link to={'/Workspaces/New'}>
+            <button className="create-workspace-button">Crear nuevo espacio</button>
+          </Link>
         </div>
-      ) : (
-        <p>No workspaces available. Create one to get started!</p>
-      )}
+      </main>
 
-      <Link to={'/Workspaces/New'}>
-        <div className="create-workspace-container">
-          <button className="create-workspace-button">Create Workspace</button>
-        </div>
-      </Link>
-
-      <div className="logout-container">
+      <footer className="home-footer">
         <button onClick={handleLogout} className="logout-button">
           Cerrar sesión
         </button>
-      </div>
+      </footer>
     </div>
   );
 };

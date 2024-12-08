@@ -3,7 +3,7 @@ import { Link, useParams } from 'react-router-dom';
 import { extractFormData } from '../../utils/extractFormData';
 import { PUT, getUnnauthenticatedHeaders } from '../../fetching/http.fetching'; // Importamos PUT y los headers no autenticados
 import ENVIROMENT from '../../../enviroment.js';
-import '../../screems/screen-style.css';
+import './ResetPassword.css';
 
 const ResetPassword = () => {
   const { reset_token } = useParams(); // Obtenemos el token de la URL

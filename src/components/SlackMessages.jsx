@@ -1,34 +1,44 @@
+// src/components/SlackMessages.jsx
 import React from 'react';
-import '../Pages/style.css'; 
-import { getChannelDetails } from '../helpers/channels';
+import './SlackMessages.css'; // Archivo CSS exclusivo para SlackMessages
 
-const SlackMessages = ({ messages , channelId}) => {
-  const channelDetails = getChannelDetails(channelId);
-return (
-    <div className="messages">
-       <h2>Messages to channel {channelDetails?.name || 'Unknown Channel'}</h2>
-       {messages.length > 0 ? (
-        <ul>
-          {messages.map((message) => (
-            <li key={message.id} className="message-item">
-              <img src={message.imageUrl} alt={`User ${message.senderId}`} className="message-avatar" />
+/**
+ * Componente que muestra los mensajes de un canal.
+ *
+ * @param {Array} messages - Lista de mensajes del canal.
+ * @param {String} channelId - ID del canal actual.
+ */
+const SlackMessages = ({ messages, channelId }) => {
+  return (
+    <div className="slack-messages">
+      <h2 className="messages-title">Messages</h2>
+      <div className="messages-list">
+        {messages.length > 0 ? (
+          messages.map((message, index) => (
+            <div key={index} className="message-item">
+              <img
+                src={message.imageUrl || '/img/default-avatar.png'}
+                alt={`User ${message.senderId}`}
+                className="message-avatar"
+              />
               <div className="message-content">
                 <div className="message-text">{message.text}</div>
                 <div className="message-info">
                   <span className="message-timestamp">
-                    {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                    {new Date(message.timestamp).toLocaleTimeString([], {
+                      hour: '2-digit',
+                      minute: '2-digit',
+                    })}
                   </span>
-                  <span className="message-status">
-                    {message.status}
-                  </span>
+                  <span className="message-status">{message.status || 'Sent'}</span>
                 </div>
               </div>
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p>No messages available for this channel</p>
-      )}
+            </div>
+          ))
+        ) : (
+          <p className="no-messages">No messages available for this channel.</p>
+        )}
+      </div>
     </div>
   );
 };

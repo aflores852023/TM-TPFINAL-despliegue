@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { extractFormData } from '../../utils/extractFormData';
 import { POST, getUnnauthenticatedHeaders } from '../../fetching/http.fetching';
 import ENVIROMENT from '../../../enviroment.js';
-import '../../screems/screen-style.css';
+import './Login.css';
 
 const Login = () => {
 	const navigate = useNavigate();
@@ -50,25 +50,42 @@ const Login = () => {
 	};
 
 	return (
-		<div className="screen-container">
-			<div className="screen">
-				<h1 className="screen-title">Inicia sesión</h1>
+		<div className="login-container">
+			<div className="login-card">
+				<h1 className="login-title">Inicia sesión en Slack</h1>
+				<p className="login-subtitle">Usa el correo electrónico que utilizas en el trabajo.</p>
 				{errorMessage && <p className="error-message">{errorMessage}</p>}
 				<form onSubmit={handleSubmitLoginForm} className="login-form">
 					<div className="form-field">
-						<label htmlFor="email">Ingrese su email:</label>
-						<input name="email" id="email" placeholder="pepe@gmail.com" className="form-input" />
+						<label htmlFor="email">Correo electrónico:</label>
+						<input
+							name="email"
+							id="email"
+							placeholder="nombre@work-email.com"
+							className="form-input"
+							type="email"
+						/>
 					</div>
 					<div className="form-field">
-						<label htmlFor="password">Ingrese su contraseña:</label>
-						<input name="password" id="password" placeholder="********" className="form-input" type="password" />
+						<label htmlFor="password">Contraseña:</label>
+						<input
+							name="password"
+							id="password"
+							placeholder="********"
+							className="form-input"
+							type="password"
+						/>
 					</div>
-					<button type="submit" className="submit-button">Iniciar sesión</button>
+					<button type="submit" className="submit-button">Iniciar sesión con el correo electrónico</button>
 				</form>
-				<div className="form-links">
-					<span>Si aún no tienes cuenta, puedes <Link to="/register" className="form-link">Registrarte</Link></span>
-					<br />
-					<span>¿Has olvidado la contraseña? <Link to="/forgot-password" className="form-link">Restablecer</Link></span>
+				<div className="login-separator">O BIEN</div>
+				<div className="login-links">
+					<p>
+						<Link to="/forgot-password" className="form-link">¿Has olvidado tu contraseña?</Link>
+					</p>
+					<p>
+						<Link to="/register" className="form-link">¿No tienes una cuenta? Regístrate</Link>
+					</p>
 				</div>
 			</div>
 		</div>

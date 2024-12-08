@@ -1,153 +1,158 @@
+// WorkspacesDetails.jsx
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { GET, POST } from '../fetching/http.fetching'; // Métodos para realizar solicitudes al backend
+import { GET, POST } from '../fetching/http.fetching';
+import ENVIROMENT from '../../enviroment.js';
+import './WorkspacesDetails.css'; // Archivo CSS con prefijos únicos
 import SlackChannels from '../components/SlackChannels';
 import SlackMessages from '../components/SlackMessages';
 import SlackChat from '../components/SlackChat';
-import './style.css';
-import ENVIROMENT from '../../enviroment.js';
 import { getAuthenticatedHeaders } from '../fetching/http.fetching';
 
-const WorkspacesDetails = () => {
-  const { workspace_id } = useParams(); // Obtener el ID del espacio de trabajo de la URL
-  const navigate = useNavigate();
-  const [channels, setChannels] = useState([]); // Estado para canales
-  const [selectedChannelId, setSelectedChannelId] = useState(null); // Estado para el canal seleccionado
-  const [messages, setMessages] = useState([]); // Estado para mensajes
-  const [loading, setLoading] = useState(true); // Estado de carga
-  const [error, setError] = useState(null); // Estado de errores
-  const [menuOpen, setMenuOpen] = useState(false); // Estado del menú
 
-  // Obtener los canales del backend
+const WorkspacesDetails = () => {
+  const { workspace_id } = useParams();
+  const navigate = useNavigate();
+  const [channels, setChannels] = useState([]);
+  const [selectedChannel, setSelectedChannel] = useState(null);
+  const [messages, setMessages] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [menuCollapsed, setMenuCollapsed] = useState(false); // Estado para colapsar/expandir el menú
+
+  // Fetch channels on mount
   useEffect(() => {
     const fetchChannels = async () => {
       try {
-        const response = await GET(`${ENVIROMENT.URL_BACKEND}/api/workspaces/${workspace_id}/channels`, {
-          headers: getAuthenticatedHeaders(),
-        });
-        
-        if (response.ok) {  // Verifica si la respuesta es correcta
-          const responseData = response.data;
-          setChannels(responseData);
-          console.log('la cantidad es:', response.data.length);  // Verifica la longitud de los datos
-          if (response.data.length > 0) {
-            setSelectedChannelId(response.data[0]._id); // Selecciona el primer canal automáticamente
-          }
+        const response = await GET(
+          `${ENVIROMENT.URL_BACKEND}/api/workspaces/${workspace_id}/channels`,
+          { headers: getAuthenticatedHeaders() }
+        );
+        if (response.ok) {
+          const { data } = response;
+          setChannels(data);
+          setSelectedChannel(data.find((c) => c.name === 'General') || data[0]);
         } else {
-          console.log('el estado del response es,', response.status);
-          console.log(response.data.length)
-          throw new Error(response.message || 'Error al obtener los canales.');
-          }
+          setError('Failed to fetch channels.');
+        }
       } catch (err) {
-        setError(err.message || 'Error al obtener los canales del backend.');
+        setError('Error fetching channels.');
       } finally {
         setLoading(false);
       }
     };
-  
 
     fetchChannels();
   }, [workspace_id]);
 
-  // Obtener los mensajes de un canal seleccionado
+  // Fetch messages when a channel is selected
   useEffect(() => {
     const fetchMessages = async () => {
-      if (!selectedChannelId) return;
-
+      if (!selectedChannel) return;
       try {
-        setLoading(true);
-        const response = await GET(`${ENVIROMENT.URL_BACKEND}/api/channels/${selectedChannelId}/messages`, {
-          headers: getAuthenticatedHeaders(),
-        });
-
+        const response = await GET(
+          `${ENVIROMENT.URL_BACKEND}/api/channels/${selectedChannel._id}/messages`,
+          { headers: getAuthenticatedHeaders() }
+        );
         if (response.ok) {
           setMessages(response.data);
         } else {
-          throw new Error(response.message || 'Error al obtener los mensajes.');
+          setError('Failed to fetch messages.');
         }
       } catch (err) {
-        setError(err.message || 'Error al obtener los mensajes del backend.');
-      } finally {
-        setLoading(false);
+        setError('Error fetching messages.');
       }
     };
 
     fetchMessages();
-  }, [selectedChannelId]);
+  }, [selectedChannel]);
 
-  // Manejar el envío de mensajes
   const handleSendMessage = async (newMessage) => {
-    try {
-      const response = await POST(`${ENVIROMENT.URL_BACKEND}/api/channels/${selectedChannelId}/messages`, newMessage, {
-        headers: getAuthenticatedHeaders(),
-      });
-
-      if (response.ok) {
-        setMessages((prevMessages) => [...prevMessages, response.data]);
-      } else {
-        throw new Error(response.message || 'Error al enviar el mensaje.');
-      }
-    } catch (err) {
-      setError(err.message || 'Error al enviar el mensaje al backend.');
+     
+    const token = sessionStorage.getItem('access_token');
+    let userId = null;
+    if (token) {
+        const decoded = jwt_decode(token); // Decodificar el token para obtener el userId
+        userId = decoded.id; //   Obtener el userId del payload del token
     }
-  };
 
-  // Seleccionar un canal
-  const handleChannelSelect = (channelId) => {
-    setSelectedChannelId(channelId);
-    setMenuOpen(false); // Cerrar menú al seleccionar canal
-  };
+    if (!userId) {
+        console.error('No se pudo obtener el userId del token.');
+        setError('Error: No se pudo identificar al usuario.');
+        return;
+    }
 
-  // Añadir un nuevo canal
-  const handleAddChannel = (newChannel) => {
-    setChannels((prevChannels) => [...prevChannels, newChannel]);
-    setSelectedChannelId(newChannel.id);
-  };
+    console.log('Enviando mensaje:', newMessage);
 
-  const handleExitClick = () => {
-    navigate('/');
-  };
+    try {
+        const response = await POST(
+            `${ENVIROMENT.URL_BACKEND}/api/channels/${selectedChannel._id}/messages`,
+            {
+                headers: getAuthenticatedHeaders(),
+                body: JSON.stringify({
+                    text: newMessage.text, // Campo `text` requerido por el esquema
+                    senderId: userId, // ID del usuario logueado
+                    channelId: selectedChannel._id, // ID del canal seleccionado
+                }),
+            }
+        );
 
-  const toggleMenu = () => {
-    setMenuOpen(!menuOpen);
-  };
+        if (response.ok) {
+            console.log('Respuesta del backend:', response);
+            setMessages((prev) => [...prev, response.data.data]); // Agrega el nuevo mensaje
+        } else {
+            console.error('Error en el backend:', response);
+            setError('Failed to send message.');
+        }
+    } catch (err) {
+        console.error('Error al enviar el mensaje:', err);
+        setError('Error sending message.');
+    }
+};
 
-  if (loading) {
-    return <div>Loading workspace details...</div>;
-  }
-
-  if (error) {
-    return <div>Error: {error}</div>;
-  }
+  if (loading) return <div className="wd-loading">Loading workspace details...</div>;
+  if (error) return <div className="wd-error-message">{error}</div>;
 
   return (
-    <div className="workspace-details-container">
-      <button className="menu-button" onClick={toggleMenu}>
-        &#9776;
+    <div className="wd-workspace-details">
+      <button
+        className="wd-toggle-button"
+        onClick={() => setMenuCollapsed(!menuCollapsed)}
+      >
+        ☰
       </button>
-      <div className={`container ${menuOpen ? 'menu-open' : ''}`}>
-        <div className={`channels-container ${menuOpen ? 'open' : ''}`}>
+      <header className="wd-workspace-header">Workspace Details</header>
+      <div className="wd-workspace-container">
+        {/* Sidebar de canales */}
+        <aside className={`wd-channels-container ${menuCollapsed ? 'collapsed' : ''}`}>
           <SlackChannels
             channels={channels}
-            workspaceId={workspace_id}
-            onChannelSelect={handleChannelSelect}
-            onAddChannel={handleAddChannel}
+            onChannelSelect={(channel) => setSelectedChannel(channel)}
           />
-        </div>
-        <div className="messages-container">
-          <div className="messages-header">
-            <h2>Messages to channel</h2>
-            <button className="exit-button" onClick={handleExitClick}>Exit</button>
-          </div>
-          {selectedChannelId && <SlackMessages messages={messages} channelId={selectedChannelId} />}
-          {selectedChannelId && (
-            <SlackChat
-              onSendMessage={handleSendMessage}
-              channelId={selectedChannelId}
-              senderId={1} // Usa el senderId adecuado
-            />
+          <button className="wd-back-button" onClick={() => navigate('/Home')}>
+            Volver
+          </button>
+          <button
+            className="wd-create-channel-button"
+            onClick={() => alert('Crear canal')}
+          >
+            Crear Nuevo Canal
+          </button>
+        </aside>
+
+        {/* Contenedor principal */}
+        <main className="wd-messages-container">
+          {selectedChannel && (
+            <>
+              <SlackMessages messages={messages} channelId={selectedChannel._id} />
+              <SlackChat
+                messages={messages}
+                onSendMessage={(newMessage) => handleSendMessage(newMessage)}
+                channelId={selectedChannel._id}
+              />
+            </>
           )}
-        </div>
+        </main>
       </div>
     </div>
   );
