@@ -53,7 +53,7 @@
 
 /* Botón de envío */
 .chat-send-button {
-    padding: 10px 20px;
+    padding: 10px 10px;
     background-color: #611f69;
     color: white;
     border: none;
@@ -74,3 +74,11 @@
         width: 100%;
     }
 }
+
+@media (max-width: 768px) {
+    .chat-input-container{
+    left: 0;
+    margin-left: 30px;
+    width: 70%;
+    }
+}   

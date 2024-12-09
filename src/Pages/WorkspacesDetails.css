@@ -1,5 +1,5 @@
-/* WorkspacesDetails.css */
 /* Prefijo `wd-` para identificar clases relacionadas con WorkspacesDetails */
+/* Contenedor principal */
 .wd-workspace-details {
     display: flex;
     flex-direction: column;
@@ -19,8 +19,9 @@
     position: relative;
 }
 
+/* Botón para mostrar/ocultar el menú lateral */
 .wd-toggle-button {
-    display: none;
+    display: none; /* Oculto por defecto en desktop */
     position: absolute;
     top: 50%;
     left: 15px;
@@ -38,13 +39,14 @@
     background-color: #8b4a9e;
 }
 
+/* Contenedor principal */
 .wd-workspace-container {
     display: flex;
     flex: 1;
     overflow: hidden;
 }
 
-/* Prefijos para las clases de canales */
+/* Menú lateral */
 .wd-channels-container {
     width: 300px;
     background-color: #350d36;
@@ -57,17 +59,19 @@
     z-index: 500;
 }
 
-.wd-channels-container.collapsed {
+/* Menú colapsado para móvil */
+/*.wd-channels-container.collapsed {
     transform: translateX(-100%);
     width: 0;
-}
+}*/
 
+/* Botones dentro del menú */
 .wd-back-button,
 .wd-create-channel-button {
     display: block;
     width: 100%;
     padding: 10px;
-    margin-bottom: 10px;
+    margin: 10px 0;
     background-color: #611f69;
     color: white;
     border: none;
@@ -86,13 +90,14 @@
 .wd-messages-container {
     flex: 1;
     display: flex;
-    flex-direction: column;  
+    flex-direction: column;
     padding: 20px;
     background-color: #f9f9f9;
-    overflow-y: auto;  
-    gap: 10px;  
+    overflow-y: auto;
+    gap: 10px;
 }
 
+/* Formulario de mensajes */
 .wd-message-form {
     display: flex;
     align-items: center;
@@ -103,20 +108,13 @@
     position: fixed;
     bottom: 0;
     left: 300px;
-    /* Alinear con el sidebar */
     width: calc(100% - 300px);
-    /* Ajuste para el sidebar */
     box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
     z-index: 1000;
     transition: all 0.3s ease;
 }
 
-.wd-message-form.collapsed {
-    left: 0;
-    width: 100%;
-}
-
-/* Campo de entrada de texto */
+/* Campo de texto */
 .wd-message-input {
     flex: 1;
     padding: 12px 15px;
@@ -151,6 +149,7 @@
     box-shadow: 0 2px 8px rgba(97, 31, 105, 0.3);
 }
 
+/* Formulario para crear canal */
 .create-channel-form {
     margin-top: 20px;
     display: flex;
@@ -184,17 +183,16 @@
         height: 100%;
         transform: translateX(-100%);
         width: 300px;
-        /* Mantener el ancho inicial */
     }
 
     .wd-channels-container.collapsed {
         transform: translateX(0);
-        /* Mostrar el menú cuando se expande */
+       
+        
     }
 
     .wd-toggle-button {
         display: block;
-        /* Mostrar botón de menú */
     }
 
     .wd-message-form {
