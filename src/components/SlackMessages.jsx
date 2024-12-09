@@ -3,16 +3,21 @@ import React from 'react';
 import './SlackMessages.css';
 
 const SlackMessages = ({ messages }) => {
+  // Ordenar mensajes por timestamp (o createdAt) en orden ascendente
+  const sortedMessages = [...messages].sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+
   return (
     <div className="slack-messages">
-      {messages.length > 0 ? (
-        messages.map((message, index) => (
+      {sortedMessages.length > 0 ? (
+        sortedMessages.map((message, index) => (
           <div key={index} className="message-item">
-            <img src="/path/to/avatar.png" alt="Avatar" className="message-avatar" />
+            <img src={message.imageUrl || "/img/picture1.jpg"} alt="Avatar" className="message-avatar" />
             <div className="message-content">
               <p className="message-text">{message.text}</p>
               <div className="message-info">
-                <span className="message-timestamp">{new Date(message.createdAt).toLocaleTimeString()}</span>
+                <span className="message-timestamp">
+                  {new Date(message.timestamp || message.createdAt).toLocaleTimeString()}
+                </span>
               </div>
             </div>
           </div>

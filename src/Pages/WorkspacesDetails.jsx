@@ -72,30 +72,33 @@ const WorkspacesDetails = () => {
   }, [selectedChannel]);
 
   const handleSendMessage = async (newMessage) => {
-    try {
-      const response = await POST(
-        `${ENVIROMENT.URL_BACKEND}/api/channels/${selectedChannel._id}/messages`,
-        {
-          headers: getAuthenticatedHeaders(),
-          body: JSON.stringify({
-            text: newMessage.text,
-            channelId: selectedChannel._id,
-          }),
-        }
-      );
   
-      if (response.ok) {
-        const sentMessage = response.data; // Ajusta según la respuesta de tu backend
-        setMessages((prevMessages) => [...prevMessages, sentMessage]);
-      } else {
-        console.error('Error al enviar el mensaje:', response);
-        setError('Failed to send message.');
-      }
+    try {
+        const response = await POST(
+            `${ENVIROMENT.URL_BACKEND}/api/channels/${selectedChannel._id}/messages`,
+            {
+                headers: getAuthenticatedHeaders(),
+                body: JSON.stringify({
+                    text: newMessage.text,
+                    channelId: selectedChannel._id,
+                }),
+            }
+        );
+
+        // Verifica si la respuesta es válida antes de llamar a .json()
+        if (!response.ok) {
+            console.error('Error en la solicitud:', response.statusText);
+            setError('Error al enviar el mensaje.');
+            return;
+        }
+
+        const data = await response.json(); // Aquí extraes la respuesta JSON
+        setMessages((prevMessages) => [...prevMessages, data]);
     } catch (err) {
-      console.error('Error al enviar el mensaje:', err);
-      setError('Error sending message.');
+        console.error('Error en la solicitud al guardar el mensaje:', err);
+        setError('Error al guardar el mensaje.');
     }
-  };
+};
   const handleCreateChannel = async () => {
     if (!newChannelName.trim()) return;
 
