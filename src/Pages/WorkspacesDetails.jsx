@@ -15,6 +15,7 @@ const WorkspacesDetails = () => {
   const [channels, setChannels] = useState([]);
   const [selectedChannel, setSelectedChannel] = useState(null);
   const [messages, setMessages] = useState([]);
+  const [newChannelName, setNewChannelName] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [menuCollapsed, setMenuCollapsed] = useState(false); // Estado para colapsar/expandir el menú
@@ -82,7 +83,7 @@ const WorkspacesDetails = () => {
           }),
         }
       );
-
+  
       if (response.ok) {
         const sentMessage = response.data; // Ajusta según la respuesta de tu backend
         setMessages((prevMessages) => [...prevMessages, sentMessage]);
@@ -95,7 +96,32 @@ const WorkspacesDetails = () => {
       setError('Error sending message.');
     }
   };
+  const handleCreateChannel = async () => {
+    if (!newChannelName.trim()) return;
 
+    try {
+        const response = await POST(
+            `${ENVIROMENT.URL_BACKEND}/api/channels`,
+            {
+                headers: getAuthenticatedHeaders(),
+                body: JSON.stringify({ name: newChannelName, workspaceId: workspace_id }),
+            }
+        );
+
+        if (response.ok) {
+            const createdChannel = response.data;
+            setChannels((prev) => [...prev, createdChannel]);
+            setNewChannelName('');
+            setSelectedChannel(createdChannel); // Seleccionar automáticamente el nuevo canal
+        } else {
+            console.error('Error en el servidor al crear el canal:', response);
+            setError('Failed to create channel.');
+        }
+    } catch (err) {
+        console.error('Error de conexión al backend:', err);
+        setError('Error creating channel.');
+    }
+};
   if (loading) return <div className="wd-loading">Loading workspace details...</div>;
   if (error) return <div className="wd-error-message">{error}</div>;
 
@@ -110,31 +136,32 @@ const WorkspacesDetails = () => {
       <header className="wd-workspace-header">Workspace Details</header>
       <div className="wd-workspace-container">
         {/* Sidebar de canales */}
-        <aside className={`wd-channels-container ${menuCollapsed ? 'collapsed' : ''}`}>
+        <aside className={`sidebar ${menuCollapsed ? 'collapsed' : ''}`}>
           <SlackChannels
             channels={channels}
             onChannelSelect={(channel) => setSelectedChannel(channel)}
           />
-          <button className="wd-back-button" onClick={() => navigate('/Home')}>
-            Volver
-          </button>
-          <button
-            className="wd-create-channel-button"
-            onClick={() => alert('Crear canal')}
-          >
-            Crear Nuevo Canal
-          </button>
+          <div className="create-channel-form">
+            <input
+              type="text"
+              value={newChannelName}
+              onChange={(e) => setNewChannelName(e.target.value)}
+              placeholder="Nuevo canal"
+            />
+            <button onClick={handleCreateChannel}>Crear</button>
+          </div>
+          <button onClick={() => navigate('/Home')}>Volver</button>
         </aside>
 
         {/* Contenedor principal */}
         <main className="wd-messages-container">
-          {selectedChannel && (
-            <>
-              <SlackMessages messages={messages} />
-              <SlackChat onSendMessage={handleSendMessage} />
-            </>
-          )}
-        </main>
+  {selectedChannel && (
+    <>
+      <SlackMessages messages={messages} />
+      <SlackChat onSendMessage={handleSendMessage} />
+    </>
+  )}
+</main>
       </div>
     </div>
   );
