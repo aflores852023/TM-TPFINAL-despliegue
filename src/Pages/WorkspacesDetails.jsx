@@ -9,7 +9,6 @@ import SlackMessages from '../components/SlackMessages';
 import SlackChat from '../components/SlackChat';
 import { getAuthenticatedHeaders } from '../fetching/http.fetching';
 
-
 const WorkspacesDetails = () => {
   const { workspace_id } = useParams();
   const navigate = useNavigate();
@@ -55,7 +54,11 @@ const WorkspacesDetails = () => {
           { headers: getAuthenticatedHeaders() }
         );
         if (response.ok) {
-          setMessages(response.data);
+          // Evitar duplicados asegurando datos únicos
+          const uniqueMessages = Array.from(new Set(response.data.map((msg) => msg._id))).map(
+            (id) => response.data.find((msg) => msg._id === id)
+          );
+          setMessages(uniqueMessages);
         } else {
           setError('Failed to fetch messages.');
         }
@@ -68,47 +71,30 @@ const WorkspacesDetails = () => {
   }, [selectedChannel]);
 
   const handleSendMessage = async (newMessage) => {
-     
-    const token = sessionStorage.getItem('access_token');
-    let userId = null;
-    if (token) {
-        const decoded = jwt_decode(token); // Decodificar el token para obtener el userId
-        userId = decoded.id; //   Obtener el userId del payload del token
-    }
-
-    if (!userId) {
-        console.error('No se pudo obtener el userId del token.');
-        setError('Error: No se pudo identificar al usuario.');
-        return;
-    }
-
-    console.log('Enviando mensaje:', newMessage);
-
     try {
-        const response = await POST(
-            `${ENVIROMENT.URL_BACKEND}/api/channels/${selectedChannel._id}/messages`,
-            {
-                headers: getAuthenticatedHeaders(),
-                body: JSON.stringify({
-                    text: newMessage.text, // Campo `text` requerido por el esquema
-                    senderId: userId, // ID del usuario logueado
-                    channelId: selectedChannel._id, // ID del canal seleccionado
-                }),
-            }
-        );
-
-        if (response.ok) {
-            console.log('Respuesta del backend:', response);
-            setMessages((prev) => [...prev, response.data.data]); // Agrega el nuevo mensaje
-        } else {
-            console.error('Error en el backend:', response);
-            setError('Failed to send message.');
+      const response = await POST(
+        `${ENVIROMENT.URL_BACKEND}/api/channels/${selectedChannel._id}/messages`,
+        {
+          headers: getAuthenticatedHeaders(),
+          body: JSON.stringify({
+            text: newMessage.text,
+            channelId: selectedChannel._id,
+          }),
         }
+      );
+
+      if (response.ok) {
+        const sentMessage = response.data; // Ajusta según la respuesta de tu backend
+        setMessages((prevMessages) => [...prevMessages, sentMessage]);
+      } else {
+        console.error('Error al enviar el mensaje:', response);
+        setError('Failed to send message.');
+      }
     } catch (err) {
-        console.error('Error al enviar el mensaje:', err);
-        setError('Error sending message.');
+      console.error('Error al enviar el mensaje:', err);
+      setError('Error sending message.');
     }
-};
+  };
 
   if (loading) return <div className="wd-loading">Loading workspace details...</div>;
   if (error) return <div className="wd-error-message">{error}</div>;
@@ -144,12 +130,8 @@ const WorkspacesDetails = () => {
         <main className="wd-messages-container">
           {selectedChannel && (
             <>
-              <SlackMessages messages={messages} channelId={selectedChannel._id} />
-              <SlackChat
-                messages={messages}
-                onSendMessage={(newMessage) => handleSendMessage(newMessage)}
-                channelId={selectedChannel._id}
-              />
+              <SlackMessages messages={messages} />
+              <SlackChat onSendMessage={handleSendMessage} />
             </>
           )}
         </main>
