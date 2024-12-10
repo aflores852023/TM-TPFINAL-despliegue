@@ -3,10 +3,6 @@ export const POST = async (URL_API, params) => {
 	try {
 		const response = await fetch(URL_API, {
 			method: 'POST',
-			headers: {
-                'Content-Type': 'application/json',
-                'x-api-key': '4f5e6g7h8i9j0k1l2m3n' 
-            },
 			...params
 		});
 		// Verificamos si la respuesta fue exitosa
