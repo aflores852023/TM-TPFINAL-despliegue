@@ -1,5 +1,5 @@
 import React from 'react'
-import { Routes, Route } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Workspaces from './Pages/Workspaces' 
 import Channels from './Pages/Channels'
 import DirectMessages from './Pages/DirectMessages'
@@ -46,12 +46,25 @@ function App() {
       <Route path ='/Home' element={<Home/>} />
       <Route path ='/404NotFound' element={<NotFound/>} />
       <Route path="/verify" element={<Verify />} />
+      <Route path="/verification-success" element={<SuccessPage />} />
+      <Route path="/verification-failed" element={<FailedPage />} />
+      <Route path="/already-verified" element={<AlreadyVerifiedPage />} />
 
 
 
     </Routes>
   )
+  function SuccessPage() {
+    return <h1>¡Correo verificado con éxito!</h1>;
+}
 
+function FailedPage() {
+    return <h1>La verificación del correo falló. Por favor, inténtalo de nuevo.</h1>;
+}
+
+function AlreadyVerifiedPage() {
+    return <h1>Este correo ya ha sido verificado.</h1>;
+}
 }
 export default App
 
