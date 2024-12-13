@@ -1,6 +1,6 @@
 import React from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import Workspaces from './Pages/Workspaces' 
+import Workspaces from './Pages/Workspaces'
 import Channels from './Pages/Channels'
 import DirectMessages from './Pages/DirectMessages'
 import Messages from './Pages/Messages'
@@ -16,7 +16,9 @@ import Login from './screems/Login/Login.jsx'
 import Verify from './screems/Verify/Verify.jsx'
 import ResetPassword from './screems/ResetPassword/ResetPassword.jsx'
 import ForgotPassword from './screems/ForgotPassword/ForgotPassword.jsx'
-
+import VerificationSuccess from './pages/VerificationSuccess';
+import VerificationFailed from './pages/VerificationFailed';
+import AlreadyVerified from './pages/AlreadyVerified';
 function App() {
 
   /*
@@ -30,41 +32,29 @@ function App() {
   return (
     // <Route> siempre esta contenido dentro de Routes
     <Routes>
-      <Route path='/' element={<Login/>}/>
-      <Route path='/login' element={<Login/>}/>
-      <Route path='/register' element={<Register/>}/>
-      <Route path='/forgot-password'element={<ForgotPassword/>}/>
+      <Route path='/' element={<Login />} />
+      <Route path='/login' element={<Login />} />
+      <Route path='/register' element={<Register />} />
+      <Route path='/forgot-password' element={<ForgotPassword />} />
       <Route path="/reset-password/:reset_token" element={<ResetPassword />} />
-      <Route path ='/Channels:workspace_id' element={<Channels/>}/>
-      <Route path ='/DirectMessages' element={<DirectMessages/>}/>
-      <Route path ='/Messages' element={<Messages/>}/>
+      <Route path='/Channels:workspace_id' element={<Channels />} />
+      <Route path='/DirectMessages' element={<DirectMessages />} />
+      <Route path='/Messages' element={<Messages />} />
       <Route path='/Workspaces/:workspace_id' element={<WorkspacesDetails />} />
-      <Route path ='/Workspaces' element={<Workspaces />} />
-      <Route path ='/Channels' element={<Channels />} />
-      <Route path = '/ChannelDetails/:channel_id' element={<ChannelDetails/>} />      
-      <Route path ='/Workspaces/New' element={<NewWorkspaces/>} />
-      <Route path ='/Home' element={<Home/>} />
-      <Route path ='/404NotFound' element={<NotFound/>} />
+      <Route path='/Workspaces' element={<Workspaces />} />
+      <Route path='/Channels' element={<Channels />} />
+      <Route path='/ChannelDetails/:channel_id' element={<ChannelDetails />} />
+      <Route path='/Workspaces/New' element={<NewWorkspaces />} />
+      <Route path='/Home' element={<Home />} />
+      <Route path='/404NotFound' element={<NotFound />} />
       <Route path="/verify" element={<Verify />} />
       <Route path="/verification-success" element={<SuccessPage />} />
       <Route path="/verification-failed" element={<FailedPage />} />
       <Route path="/already-verified" element={<AlreadyVerifiedPage />} />
-
-
-
     </Routes>
   )
-  function SuccessPage() {
-    return <h1>¡Correo verificado con éxito!</h1>;
-}
 
-function FailedPage() {
-    return <h1>La verificación del correo falló. Por favor, inténtalo de nuevo.</h1>;
-}
 
-function AlreadyVerifiedPage() {
-    return <h1>Este correo ya ha sido verificado.</h1>;
-}
 }
 export default App
 
