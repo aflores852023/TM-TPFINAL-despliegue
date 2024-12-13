@@ -28,9 +28,9 @@ import Login from './screems/Login/Login.jsx';
 import Verify from './screems/Verify/Verify.jsx';
 import ResetPassword from './screems/ResetPassword/ResetPassword.jsx';
 import ForgotPassword from './screems/ForgotPassword/ForgotPassword.jsx';
-import VerificationSuccess from './pages/VerificationSuccess';
-import VerificationFailed from './pages/VerificationFailed';
-import AlreadyVerified from './pages/AlreadyVerified';
+import VerificationSuccess from './Pages/VerificationSuccess.jsx';
+import VerificationFailed from './Pages/VerificationFailed.jsx';
+import AlreadyVerified from './Pages/AlreadyVerified.jsx';
 
 function App() {
   return (
