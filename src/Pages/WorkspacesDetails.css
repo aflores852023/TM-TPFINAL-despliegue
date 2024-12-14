@@ -23,7 +23,7 @@
 .wd-toggle-button {
     display: none; /* Oculto por defecto en desktop */
     position: absolute;
-    top: 50%;
+    top: 15%;
     left: 15px;
     transform: translateY(-50%);
     background-color: #611f69;
