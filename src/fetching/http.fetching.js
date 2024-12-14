@@ -29,22 +29,26 @@ export const GET = async (URL_API, params) => {
     try {
         const response = await fetch(URL_API, {
             method: 'GET',
-            ...params,
+            ...params
         });
 
+        console.log('Respuesta completa del servidor:', response);
+
+        // Verificar si la respuesta tiene un método `.json`
         if (!response.ok) {
-            const errorText = await response.text();
-            console.error(`Error en GET a ${URL_API}:`, errorText);
-            throw new Error(`HTTP error! Status: ${response.status} - ${response.statusText}`);
+            const errorText = await response.text(); // Capturar el texto de error para debugging
+            console.error('Error en la respuesta:', errorText);
+            throw new Error(`HTTP error! Status: ${response.status}, Body: ${errorText}`);
         }
 
         const contentType = response.headers.get('Content-Type');
         if (contentType && contentType.includes('application/json')) {
-            return await response.json(); // Parseamos la respuesta como JSON
+            return await response.json();
+        } else {
+            throw new Error(`El servidor no devolvió un JSON válido. Content-Type: ${contentType}`);
         }
-        return response; // Devuelve el Response completo si no es JSON
     } catch (error) {
-        console.error(`Error en GET a ${URL_API}:`, error.message);
+        console.error('Error en la petición GET:', error.message);
         throw new Error(`Failed to get from ${URL_API}: ${error.message}`);
     }
 };
