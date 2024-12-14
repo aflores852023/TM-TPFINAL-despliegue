@@ -1,5 +1,4 @@
 // WorkspacesDetails.jsx
-// WorkspacesDetails.jsx
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { GET, POST } from '../fetching/http.fetching';
@@ -29,14 +28,14 @@ const WorkspacesDetails = () => {
                     `${ENVIROMENT.URL_BACKEND}/api/workspaces/${workspace_id}/channels`,
                     { headers: getAuthenticatedHeaders() }
                 );
-                if (response.ok) {
-                    const { data } = await response.json();
-                    setChannels(data);
-                    setSelectedChannel(data.find((c) => c.name === 'General') || data[0]);
-                } else {
+                if (!response.ok) {
                     const errorData = await response.json();
                     setError(errorData.message || 'Failed to fetch channels.');
+                    return;
                 }
+                const data = await response.json();
+                setChannels(data.data);
+                setSelectedChannel(data.data.find((c) => c.name === 'General') || data.data[0]);
             } catch (err) {
                 setError('Error fetching channels.');
                 console.error(err);
@@ -56,13 +55,13 @@ const WorkspacesDetails = () => {
                     `${ENVIROMENT.URL_BACKEND}/api/channels/${selectedChannel._id}/messages`,
                     { headers: getAuthenticatedHeaders() }
                 );
-                if (response.ok) {
-                    const { data } = await response.json();
-                    setMessages(data);
-                } else {
+                if (!response.ok) {
                     const errorData = await response.json();
                     setError(errorData.message || 'Failed to fetch messages.');
+                    return;
                 }
+                const data = await response.json();
+                setMessages(data.data);
             } catch (err) {
                 setError('Error fetching messages.');
                 console.error(err);
@@ -87,17 +86,17 @@ const WorkspacesDetails = () => {
                 }
             );
 
-            console.log('Respuesta completa del backend:', response);
-
-            if (response.ok) {
-                const data = await response.json();
-                console.log('Respuesta JSON del backend:', data);
-                setMessages((prevMessages) => [...prevMessages, data.data]);
-            } else {
+            if (!response.ok) {
                 const errorData = await response.json();
                 console.error('Error en la respuesta del backend:', errorData);
                 setError(errorData.message || 'Error al guardar el mensaje.');
+                return;
             }
+
+            const data = await response.json();
+            console.log('Respuesta del backend:', data);
+
+            setMessages((prevMessages) => [...prevMessages, data.data]);
         } catch (err) {
             console.error('Error al enviar el mensaje:', err.message);
             setError('Error al guardar el mensaje.');
@@ -114,15 +113,15 @@ const WorkspacesDetails = () => {
                     body: JSON.stringify({ name: newChannelName, workspaceId: workspace_id }),
                 }
             );
-            if (response.ok) {
-                const { data } = await response.json();
-                setChannels((prev) => [...prev, data]);
-                setNewChannelName('');
-                setSelectedChannel(data);
-            } else {
+            if (!response.ok) {
                 const errorData = await response.json();
                 setError(errorData.message || 'Error creating channel.');
+                return;
             }
+            const data = await response.json();
+            setChannels((prev) => [...prev, data.data]);
+            setNewChannelName('');
+            setSelectedChannel(data.data);
         } catch (err) {
             setError('Error creando canal.');
             console.error(err);
