@@ -100,9 +100,8 @@ const handleSendMessage = async (newMessage) => {
             }),
         });
 
-        console.log('Respuesta completa del servidor al enviar mensaje:', response);
+        console.log('Mensaje guardado:', response.data);
 
-        // Si todo está bien, agrega el mensaje al estado
         setMessages((prevMessages) => [...prevMessages, response.data]);
     } catch (err) {
         console.error('Error al enviar el mensaje:', err.message);
@@ -121,9 +120,8 @@ const handleCreateChannel = async () => {
             body: JSON.stringify({ name: newChannelName, workspaceId: workspace_id }),
         });
 
-        console.log('Respuesta completa del servidor al crear canal:', response);
+        console.log('Canal creado:', response.data);
 
-        // Si todo está bien, agrega el canal al estado
         setChannels((prev) => [...prev, response.data]);
         setNewChannelName('');
         setSelectedChannel(response.data);
