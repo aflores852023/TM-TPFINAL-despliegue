@@ -108,12 +108,16 @@ const getUnnauthenticatedHeaders = () => {
 };
 
 const getAuthenticatedHeaders = () => {
-    const accessToken = sessionStorage.getItem('access_token');
     const headers = new Headers({
         'Content-Type': 'application/json',
         'x-api-key': '4f5e6g7h8i9j0k1l2m3n',
-        Authorization: `Bearer ${accessToken}`,
     });
+    const token = sessionStorage.getItem('access_token');
+    if (token) {
+        headers.set('Authorization', `Bearer ${token}`);
+    } else {
+        console.warn('No se encontró access_token en sessionStorage.');
+    }
     console.log('Headers con autenticación:', headers);
     return headers;
 };

@@ -55,30 +55,33 @@ const WorkspacesDetails = () => {
             if (!selectedChannel) return;
 
             try {
-                const url = `${ENVIROMENT.URL_BACKEND}/api/channels/${selectedChannel._id}/messages`;
-                console.log('La URL para consultar los mensajes es:', url);
-
-                const response = await GET(url, { headers: getAuthenticatedHeaders() });
-
+                const response = await GET(
+                    `${ENVIROMENT.URL_BACKEND}/api/channels/${selectedChannel._id}/messages`,
+                    { headers: getAuthenticatedHeaders() }
+                );
                 console.log('Respuesta completa del servidor para mensajes:', response);
-
+            
                 if (!response.ok) {
-                    console.log('Error desde el servidor al obtener mensajes. Status HTTP:', response.status);
-                    const errorData = await response.json();
-                    console.error('Detalles del error al obtener mensajes:', errorData);
-                    setError(errorData.message || 'Failed to fetch messages.');
-                    return;
+                    console.error('Error en la respuesta del servidor:', response);
+                    throw new Error(`HTTP error! Status: ${response.status}`);
                 }
-
-                const data = await response.json();
-                console.log('Mensajes obtenidos:', data.data);
-
-                setMessages(data.data);
+            
+                // Inspecciona el contenido antes de convertirlo
+                const contentType = response.headers.get('Content-Type');
+                console.log('Content-Type de la respuesta:', contentType);
+            
+                if (contentType && contentType.includes('application/json')) {
+                    const data = await response.json();
+                    setMessages(data.data);
+                    console.log('Mensajes obtenidos:', data.data);
+                } else {
+                    console.error('La respuesta no es JSON.');
+                    throw new Error('La respuesta no es JSON.');
+                }
             } catch (err) {
                 console.error('Error al intentar obtener los mensajes:', err.message);
-                setError('Error fetching messages.');
+                setError('Error al obtener los mensajes.');
             }
-        };
         fetchMessages();
     }, [selectedChannel]);
 
