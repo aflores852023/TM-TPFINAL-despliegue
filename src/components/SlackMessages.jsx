@@ -1,7 +1,7 @@
 import React from 'react';
 import './SlackMessages.css';
 
-const SlackMessages = ({ messages }) => {
+const SlackMessages = ({ messages, currentUser }) => {
   // Ordenar mensajes por timestamp (o createdAt) en orden ascendente
   const sortedMessages = [...messages].sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
 
@@ -12,7 +12,7 @@ const SlackMessages = ({ messages }) => {
           <div
             key={index}
             className={`message-item ${
-              message.senderId === 'welcome' ? 'message-left' : 'message-right'
+              message.senderId === currentUser.id ? 'message-right' : 'message-left'
             }`}
           >
             <img
