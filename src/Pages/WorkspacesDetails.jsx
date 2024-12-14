@@ -65,6 +65,9 @@ const WorkspacesDetails = () => {
 
     const handleSendMessage = async (newMessage) => {
         try {
+            console.log('Mensaje que se enviará:', newMessage);
+            console.log('Canal seleccionado:', selectedChannel);
+    
             const response = await POST(
                 `${ENVIROMENT.URL_BACKEND}/api/channels/${selectedChannel._id}/messages`,
                 {
@@ -75,21 +78,24 @@ const WorkspacesDetails = () => {
                     }),
                 }
             );
-
-            console.log('Mensaje que se enviará:', newMessage);
-            console.log('Canal seleccionado:', selectedChannel);
+    
             if (response.ok) {
                 const data = await response.json();
-                setMessages((prev) => [...prev, data]);
+                console.log('Respuesta del backend:', data);
+    
+                // Actualiza el estado de los mensajes correctamente
+                setMessages((prevMessages) => [...prevMessages, data.data]);
+                console.log('Mensajes actualizados:', [...messages, data.data]);
+            } else {
+                const errorData = await response.json();
+                console.error('Error en la respuesta del backend:', errorData);
+                setError(errorData.message || 'Error al guardar el mensaje.');
             }
-            console.log('la respuesta del backend es:', response);
-            console.log('Mensajes actualizados:', messages);
         } catch (err) {
+            console.error('Error al enviar el mensaje:', err.message);
             setError('Error al guardar el mensaje.');
         }
-    };
-
-    const handleCreateChannel = async () => {
+    };    const handleCreateChannel = async () => {
         if (!newChannelName.trim()) return;
         try {
             const response = await POST(
