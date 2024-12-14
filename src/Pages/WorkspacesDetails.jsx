@@ -75,10 +75,15 @@ const WorkspacesDetails = () => {
                     }),
                 }
             );
+
+            console.log('Mensaje que se enviará:', newMessage);
+            console.log('Canal seleccionado:', selectedChannel);
             if (response.ok) {
                 const data = await response.json();
                 setMessages((prev) => [...prev, data]);
             }
+            console.log('la respuesta del backend es:', response);
+            console.log('Mensajes actualizados:', messages);
         } catch (err) {
             setError('Error al guardar el mensaje.');
         }
