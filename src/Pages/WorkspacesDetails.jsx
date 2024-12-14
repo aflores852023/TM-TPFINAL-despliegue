@@ -84,73 +84,54 @@ const WorkspacesDetails = () => {
     fetchMessages();
 }, [selectedChannel]);
 
-    const handleSendMessage = async (newMessage) => {
-        try {
-            console.log('Mensaje que se enviará:', newMessage);
-            console.log('Canal seleccionado:', selectedChannel);
+const handleSendMessage = async (newMessage) => {
+    try {
+        console.log('Mensaje que se enviará:', newMessage);
+        console.log('Canal seleccionado:', selectedChannel);
 
-            const url = `${ENVIROMENT.URL_BACKEND}/api/channels/${selectedChannel._id}/messages`;
-            console.log('La URL para enviar el mensaje es:', url);
+        const url = `${ENVIROMENT.URL_BACKEND}/api/channels/${selectedChannel._id}/messages`;
+        console.log('La URL para enviar el mensaje es:', url);
 
-            const response = await POST(url, {
-                headers: getAuthenticatedHeaders(),
-                body: JSON.stringify({
-                    text: newMessage.text,
-                    channelId: selectedChannel._id,
-                }),
-            });
+        const response = await POST(url, {
+            headers: getAuthenticatedHeaders(),
+            body: JSON.stringify({
+                text: newMessage.text,
+                channelId: selectedChannel._id,
+            }),
+        });
 
-            console.log('Respuesta completa del servidor al enviar mensaje:', response);
+        console.log('Respuesta completa del servidor al enviar mensaje:', response);
 
-            if (!response.ok) {
-                const errorData = await response.json();
-                console.error('Error desde el servidor al enviar mensaje:', errorData);
-                setError(errorData.message || 'Error al guardar el mensaje.');
-                return;
-            }
+        // Si todo está bien, agrega el mensaje al estado
+        setMessages((prevMessages) => [...prevMessages, response.data]);
+    } catch (err) {
+        console.error('Error al enviar el mensaje:', err.message);
+        setError('Error al guardar el mensaje.');
+    }
+};
+const handleCreateChannel = async () => {
+    if (!newChannelName.trim()) return;
 
-            const data = await response.json();
-            console.log('Mensaje guardado:', data.data);
+    try {
+        const url = `${ENVIROMENT.URL_BACKEND}/api/channels`;
+        console.log('La URL para crear el canal es:', url);
 
-            setMessages((prevMessages) => [...prevMessages, data.data]);
-        } catch (err) {
-            console.error('Error al enviar el mensaje:', err.message);
-            setError('Error al guardar el mensaje.');
-        }
-    };
+        const response = await POST(url, {
+            headers: getAuthenticatedHeaders(),
+            body: JSON.stringify({ name: newChannelName, workspaceId: workspace_id }),
+        });
 
-    const handleCreateChannel = async () => {
-        if (!newChannelName.trim()) return;
+        console.log('Respuesta completa del servidor al crear canal:', response);
 
-        try {
-            const url = `${ENVIROMENT.URL_BACKEND}/api/channels`;
-            console.log('La URL para crear el canal es:', url);
-
-            const response = await POST(url, {
-                headers: getAuthenticatedHeaders(),
-                body: JSON.stringify({ name: newChannelName, workspaceId: workspace_id }),
-            });
-
-            console.log('Respuesta completa del servidor al crear canal:', response);
-
-            if (!response.ok) {
-                const errorData = await response.json();
-                console.error('Error desde el servidor al crear canal:', errorData);
-                setError(errorData.message || 'Error creando canal.');
-                return;
-            }
-
-            const createdChannel = await response.json();
-            console.log('Canal creado:', createdChannel);
-
-            setChannels((prev) => [...prev, createdChannel]);
-            setNewChannelName('');
-            setSelectedChannel(createdChannel);
-        } catch (err) {
-            console.error('Error al crear el canal:', err.message);
-            setError('Error creando canal.');
-        }
-    };
+        // Si todo está bien, agrega el canal al estado
+        setChannels((prev) => [...prev, response.data]);
+        setNewChannelName('');
+        setSelectedChannel(response.data);
+    } catch (err) {
+        console.error('Error al crear el canal:', err.message);
+        setError('Error creando canal.');
+    }
+};
 
     if (loading) return <div className="wd-loading">Cargando...</div>;
     if (error) return <div className="wd-error-message">{error}</div>;

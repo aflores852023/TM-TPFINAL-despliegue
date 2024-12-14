@@ -7,20 +7,18 @@ export const POST = async (URL_API, params) => {
             ...params,
         });
 
+        // Verificamos si la respuesta fue exitosa
         if (!response.ok) {
-            const errorText = await response.text();
-            console.error(`Error en POST a ${URL_API}:`, errorText);
-            throw new Error(`HTTP error! Status: ${response.status} - ${response.statusText}`);
+            // Intentamos obtener el mensaje de error del cuerpo de la respuesta
+            const errorData = await response.json().catch(() => ({}));
+            throw new Error(errorData.message || `HTTP error! Status: ${response.status}`);
         }
 
-        const contentType = response.headers.get('Content-Type');
-        if (contentType && contentType.includes('application/json')) {
-            return await response.json(); // Parseamos la respuesta como JSON
-        }
-        return response; // Devuelve el Response completo si no es JSON
+        // Parseamos y retornamos la respuesta como JSON
+        return response.json();
     } catch (error) {
-        console.error(`Error en POST a ${URL_API}:`, error.message);
-        console.log('Datos enviados en el POST:', params);
+        console.error('Error en POST:', error.message);
+        console.log('Datos enviados:', params);
         throw new Error(`Failed to post to ${URL_API}: ${error.message}`);
     }
 };
