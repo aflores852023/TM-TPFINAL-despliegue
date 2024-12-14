@@ -95,7 +95,6 @@
     background-color: #f9f9f9;
     overflow-y: auto;
     gap: 10px;
-    overflow-y: auto; /* Controla el scroll vertical */
 }
 
 /* Formulario de mensajes */
