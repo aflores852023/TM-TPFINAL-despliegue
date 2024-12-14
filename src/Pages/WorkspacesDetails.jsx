@@ -55,33 +55,34 @@ const WorkspacesDetails = () => {
         };
         fetchChannels();
     }, [workspace_id]);
-    
-    useEffect(() => {
-        const fetchMessages = async () => {
-            try {
-                console.log('La URL para consultar los mensajes es:', `${ENVIROMENT.URL_BACKEND}/api/channels/${selectedChannel._id}/messages`);
-                console.log('Headers con autenticación:', getAuthenticatedHeaders());
-        
-                const response = await GET(
-                    `${ENVIROMENT.URL_BACKEND}/api/channels/${selectedChannel._id}/messages`,
-                    { headers: getAuthenticatedHeaders() }
-                );
-        
-                console.log('Respuesta completa del servidor para mensajes:', response);
-        
-                if (!response.ok) {
-                    throw new Error(response.message || 'Error al obtener los mensajes.');
-                }
-        
+
+   useEffect(() => {
+    const fetchMessages = async () => {
+        if (!selectedChannel) {
+            console.warn('No se ha seleccionado un canal válido.');
+            return;
+        }
+
+        try {
+            const url = `${ENVIROMENT.URL_BACKEND}/api/channels/${selectedChannel._id}/messages`;
+            console.log('La URL para consultar los mensajes es:', url);
+
+            const response = await GET(url, { headers: getAuthenticatedHeaders() });
+
+            console.log('Respuesta completa del servidor para mensajes:', response);
+
+            if (response.ok) {
                 setMessages(response.data || []);
-                console.log('Mensajes obtenidos:', response.data || []);
-            } catch (err) {
-                console.error('Error al intentar obtener los mensajes:', err.message);
-                setError('Error al obtener los mensajes.');
+            } else {
+                throw new Error(response.message || 'Error al obtener los mensajes.');
             }
-        };
-        fetchMessages();
-    }, [selectedChannel]);
+        } catch (err) {
+            console.error('Error al intentar obtener los mensajes:', err.message);
+            setError('Error al obtener los mensajes.');
+        }
+    };
+    fetchMessages();
+}, [selectedChannel]);
 
     const handleSendMessage = async (newMessage) => {
         try {
