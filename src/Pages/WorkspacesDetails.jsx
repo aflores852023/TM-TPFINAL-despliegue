@@ -28,6 +28,9 @@ const WorkspacesDetails = () => {
                     `${ENVIROMENT.URL_BACKEND}/api/workspaces/${workspace_id}/channels`,
                     { headers: getAuthenticatedHeaders() }
                 );
+                console.log('la url para consultar los canales es ', `${ENVIROMENT.URL_BACKEND}/api/workspaces/${workspace_id}/channels`);
+                console.log('la respuesta del servidor es ', response);
+                
                 if (!response.ok) {
                     const errorData = await response.json();
                     setError(errorData.message || 'Failed to fetch channels.');
