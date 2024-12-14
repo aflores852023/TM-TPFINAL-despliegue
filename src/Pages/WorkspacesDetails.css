@@ -88,13 +88,14 @@
 
 /* Contenedor de mensajes */
 .wd-messages-container {
-    flex: 1; /* Permite que el contenedor crezca según sea necesario */
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    background-color: #f9f9f9;
+    overflow-y: auto;
+    gap: 10px;
     overflow-y: auto; /* Controla el scroll vertical */
-    max-height: calc(100vh - 150px); /* Ajusta la altura máxima según el espacio disponible */
-    padding: 10px; /* Espaciado interno para los mensajes */
-    box-sizing: border-box;
-    background-color: #f9f9f9; /* Fondo claro para diferenciar */
-    border-radius: 8px; /* Esquinas redondeadas *
 }
 
 /* Formulario de mensajes */
