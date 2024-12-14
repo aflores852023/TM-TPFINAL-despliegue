@@ -52,36 +52,28 @@ const WorkspacesDetails = () => {
 
     useEffect(() => {
         const fetchMessages = async () => {
-            if (!selectedChannel) return;
-
             try {
+                console.log('La URL para consultar los mensajes es:', `${ENVIROMENT.URL_BACKEND}/api/channels/${selectedChannel._id}/messages`);
+                console.log('Headers con autenticación:', getAuthenticatedHeaders());
+        
                 const response = await GET(
                     `${ENVIROMENT.URL_BACKEND}/api/channels/${selectedChannel._id}/messages`,
                     { headers: getAuthenticatedHeaders() }
                 );
+        
                 console.log('Respuesta completa del servidor para mensajes:', response);
-            
+        
                 if (!response.ok) {
-                    console.error('Error en la respuesta del servidor:', response);
-                    throw new Error(`HTTP error! Status: ${response.status}`);
+                    throw new Error(response.message || 'Error al obtener los mensajes.');
                 }
-            
-                // Inspecciona el contenido antes de convertirlo
-                const contentType = response.headers.get('Content-Type');
-                console.log('Content-Type de la respuesta:', contentType);
-            
-                if (contentType && contentType.includes('application/json')) {
-                    const data = await response.json();
-                    setMessages(data.data);
-                    console.log('Mensajes obtenidos:', data.data);
-                } else {
-                    console.error('La respuesta no es JSON.');
-                    throw new Error('La respuesta no es JSON.');
-                }
+        
+                setMessages(response.data || []);
+                console.log('Mensajes obtenidos:', response.data || []);
             } catch (err) {
                 console.error('Error al intentar obtener los mensajes:', err.message);
                 setError('Error al obtener los mensajes.');
             }
+        };
         fetchMessages();
     }, [selectedChannel]);
 
