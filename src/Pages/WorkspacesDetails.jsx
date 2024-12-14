@@ -1,4 +1,5 @@
 // WorkspacesDetails.jsx
+// WorkspacesDetails.jsx
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { GET, POST } from '../fetching/http.fetching';
@@ -20,6 +21,7 @@ const WorkspacesDetails = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
+    // Fetch channels on component mount
     useEffect(() => {
         const fetchChannels = async () => {
             try {
@@ -28,14 +30,16 @@ const WorkspacesDetails = () => {
                     { headers: getAuthenticatedHeaders() }
                 );
                 if (response.ok) {
-                    const { data } = response;
+                    const { data } = await response.json();
                     setChannels(data);
                     setSelectedChannel(data.find((c) => c.name === 'General') || data[0]);
                 } else {
-                    setError('Failed to fetch channels.');
+                    const errorData = await response.json();
+                    setError(errorData.message || 'Failed to fetch channels.');
                 }
             } catch (err) {
                 setError('Error fetching channels.');
+                console.error(err);
             } finally {
                 setLoading(false);
             }
@@ -43,6 +47,7 @@ const WorkspacesDetails = () => {
         fetchChannels();
     }, [workspace_id]);
 
+    // Fetch messages when selectedChannel changes
     useEffect(() => {
         const fetchMessages = async () => {
             if (!selectedChannel) return;
@@ -52,12 +57,15 @@ const WorkspacesDetails = () => {
                     { headers: getAuthenticatedHeaders() }
                 );
                 if (response.ok) {
-                    setMessages(response.data);
+                    const { data } = await response.json();
+                    setMessages(data);
                 } else {
-                    setError('Failed to fetch messages.');
+                    const errorData = await response.json();
+                    setError(errorData.message || 'Failed to fetch messages.');
                 }
             } catch (err) {
                 setError('Error fetching messages.');
+                console.error(err);
             }
         };
         fetchMessages();
@@ -67,7 +75,7 @@ const WorkspacesDetails = () => {
         try {
             console.log('Mensaje que se enviará:', newMessage);
             console.log('Canal seleccionado:', selectedChannel);
-    
+
             const response = await POST(
                 `${ENVIROMENT.URL_BACKEND}/api/channels/${selectedChannel._id}/messages`,
                 {
@@ -78,14 +86,13 @@ const WorkspacesDetails = () => {
                     }),
                 }
             );
-    
+
+            console.log('Respuesta completa del backend:', response);
+
             if (response.ok) {
                 const data = await response.json();
-                console.log('Respuesta del backend:', data);
-    
-                // Actualiza el estado de los mensajes correctamente
+                console.log('Respuesta JSON del backend:', data);
                 setMessages((prevMessages) => [...prevMessages, data.data]);
-                console.log('Mensajes actualizados:', [...messages, data.data]);
             } else {
                 const errorData = await response.json();
                 console.error('Error en la respuesta del backend:', errorData);
@@ -95,7 +102,9 @@ const WorkspacesDetails = () => {
             console.error('Error al enviar el mensaje:', err.message);
             setError('Error al guardar el mensaje.');
         }
-    };    const handleCreateChannel = async () => {
+    };
+
+    const handleCreateChannel = async () => {
         if (!newChannelName.trim()) return;
         try {
             const response = await POST(
@@ -106,13 +115,17 @@ const WorkspacesDetails = () => {
                 }
             );
             if (response.ok) {
-                const createdChannel = await response.json();
-                setChannels((prev) => [...prev, createdChannel]);
+                const { data } = await response.json();
+                setChannels((prev) => [...prev, data]);
                 setNewChannelName('');
-                setSelectedChannel(createdChannel);
+                setSelectedChannel(data);
+            } else {
+                const errorData = await response.json();
+                setError(errorData.message || 'Error creating channel.');
             }
         } catch (err) {
             setError('Error creando canal.');
+            console.error(err);
         }
     };
 
