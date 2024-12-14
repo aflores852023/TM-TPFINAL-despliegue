@@ -25,21 +25,27 @@ const WorkspacesDetails = () => {
             try {
                 const url = `${ENVIROMENT.URL_BACKEND}/api/workspaces/${workspace_id}/channels`;
                 console.log('La URL para consultar los canales es:', url);
-        
-                // Llamada a GET
+    
                 const response = await GET(url, { headers: getAuthenticatedHeaders() });
-        
-                // Si GET devuelve el objeto completo cuando no es JSON
-                if (!response || !response.ok) {
-                    setError('Error al obtener los canales.');
-                    console.error('Error al obtener los canales. Respuesta:', response);
-                    return;
+    
+                console.log('Respuesta completa del servidor para canales:', response);
+    
+                if (response.ok) {
+                    const channels = response.data || [];
+                    setChannels(channels);
+    
+                    // Seleccionar el canal 'General' o el primero de la lista
+                    const defaultChannel = channels.find((c) => c.name === 'General') || channels[0];
+    
+                    if (defaultChannel) {
+                        setSelectedChannel(defaultChannel);
+                    } else {
+                        console.warn('No se encontraron canales válidos.');
+                        setSelectedChannel(null);
+                    }
+                } else {
+                    throw new Error(response.message || 'Error al obtener los canales.');
                 }
-        
-                // Si es un JSON válido, setear los canales
-                setChannels(response.data);
-                setSelectedChannel(response.data.find((c) => c.name === 'General') || response.data[0]);
-                console.log('Canales obtenidos:', response.data);
             } catch (err) {
                 console.error('Error al intentar obtener los canales:', err.message);
                 setError('Error al obtener los canales.');
@@ -49,7 +55,7 @@ const WorkspacesDetails = () => {
         };
         fetchChannels();
     }, [workspace_id]);
-
+    
     useEffect(() => {
         const fetchMessages = async () => {
             try {
