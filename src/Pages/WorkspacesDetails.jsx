@@ -25,24 +25,38 @@ const WorkspacesDetails = () => {
             try {
                 const url = `${ENVIROMENT.URL_BACKEND}/api/workspaces/${workspace_id}/channels`;
                 console.log('La URL para consultar los canales es:', url);
-
+        
                 const response = await GET(url, { headers: getAuthenticatedHeaders() });
-
+        
                 console.log('Respuesta completa del servidor:', response);
-
+        
+                // Verificar el tipo de contenido antes de intentar convertir a JSON
+                const contentType = response.headers.get('Content-Type');
+                console.log('Content-Type de la respuesta:', contentType);
+        
                 if (!response.ok) {
-                    console.log('Error desde el servidor. Status HTTP:', response.status);
-                    const errorData = await response.json();
-                    console.error('Detalles del error:', errorData);
-                    setError(errorData.message || 'Failed to fetch channels.');
+                    if (contentType && contentType.includes('application/json')) {
+                        const errorData = await response.json();
+                        console.error('Detalles del error desde el servidor:', errorData);
+                        setError(errorData.message || 'Failed to fetch channels.');
+                    } else {
+                        console.error('Error desde el servidor, no es JSON. Status HTTP:', response.status);
+                        setError('Error inesperado desde el servidor.');
+                    }
                     return;
                 }
-
-                const data = await response.json();
-                console.log('Canales obtenidos:', data.data);
-
-                setChannels(data.data);
-                setSelectedChannel(data.data.find((c) => c.name === 'General') || data.data[0]);
+        
+                // Manejar correctamente la respuesta JSON
+                if (contentType && contentType.includes('application/json')) {
+                    const data = await response.json();
+                    console.log('Canales obtenidos:', data.data);
+        
+                    setChannels(data.data);
+                    setSelectedChannel(data.data.find((c) => c.name === 'General') || data.data[0]);
+                } else {
+                    console.error('La respuesta del servidor no contiene JSON válido.');
+                    setError('La respuesta del servidor no es válida.');
+                }
             } catch (err) {
                 console.error('Error al intentar obtener los canales:', err.message);
                 setError('Error fetching channels.');
